@@ -80,7 +80,7 @@ module.exports = function(client, data){
 					}
 				});
 			}else{
-				client.red({notice:{title:'THẤT BẠI',text:'Captcha không đúng.'}});
+				client.red({notice:{title:'THẤT BẠI',text:'sv_ms_capcha_error'}});
 			}
 		}
 	}

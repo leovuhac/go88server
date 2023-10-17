@@ -19,10 +19,10 @@ module.exports = function(client, data) {
 		var txt = JSON.stringify(file);
 		fs.writeFile(path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__dirname))))) + '/config/angrybird.json', txt, function(err){
 			if (!!err) {
-				client.red({notice:{title:'THẤT BẠI', text:'đổi chế độ thất bại...'}});
+				client.red({notice:{title:'THẤT BẠI', text:'sv_ms_change_mode_false'}});
 			}
 		});
 	}else{
-		client.red({notice:{title:'THẤT BẠI', text:'đổi chế độ thất bại...'}});
+		client.red({notice:{title:'THẤT BẠI', text:'sv_ms_change_mode_false'}});
 	}
 }

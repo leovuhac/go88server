@@ -17,15 +17,15 @@ let authenticate = function(client, data, callback) {
 		let testName = az09.test(username);
 
 		if (!validator.isLength(username, {min: 3, max: 32})) {
-			callback({title:'ĐĂNG NHẬP', text:'Tài khoản (3-32 kí tự).'}, false);
+			callback({title:'ĐĂNG NHẬP', text:'sv_ms_account_character_length.'}, false);
 		}else if (!validator.isLength(password, {min: 5, max: 32})) {
-			callback({title:'ĐĂNG NHẬP', text:'Mật khẩu (6-32 kí tự)'}, false);
+			callback({title:'ĐĂNG NHẬP', text:'sv_ms_pass_length'}, false);
 		}else if (!testName) {
-			callback({title:'ĐĂNG NHẬP', text:'Tên đăng nhập chỉ gồm kí tự và số !!'}, false);
+			callback({title:'ĐĂNG NHẬP', text:'sv_ms_account_format'}, false);
 		} else {
 			let configAdmin = getConfig('admin');
 			if (!!configAdmin && configAdmin.anti === true) {
-				callback({title:'CẢNH BÁO', text:'Bạn hoặc ai đó đang cố đăng nhập trái phép. khóa đăng nhập được kích hoạt...'}, false);	
+				callback({title:'Warning!', text:'sv_ms_account_security_warning'}, false);	
 			}else{
 				try {
 					username = username.toLowerCase();
@@ -34,7 +34,7 @@ let authenticate = function(client, data, callback) {
 							if (void 0 !== user.fail && user.fail > 3) {
 								if (!captcha || !client.c_captcha) {
 									client.c_captcha('signIn');
-									callback({title:'ĐĂNG NHẬP', text:'Phát hiện truy cập trái phép, vui lòng nhập captcha để tiếp tục.'}, false);	
+									callback({title:'ĐĂNG NHẬP', text:'sv_ms_fill_capchat_to_continue'}, false);	
 								}else{
 									let checkCLogin = new RegExp('^' + client.captcha + '$', 'i');
 									checkCLogin     = checkCLogin.test(captcha);
@@ -48,13 +48,13 @@ let authenticate = function(client, data, callback) {
 											client.c_captcha('signIn');
 											user.fail += 1;
 											user.save();
-											callback({title:'ĐĂNG NHẬP', text:'Mật khẩu không chính xác!!'}, false);
+											callback({title:'ĐĂNG NHẬP', text:'sv_ms_login_password_error'}, false);
 										}
 									}else{
 										user.fail += 1;
 										user.save();
 										client.c_captcha('signIn');
-										callback({title:'ĐĂNG NHẬP', text:'Captcha không đúng...'}, false);	
+										callback({title:'ĐĂNG NHẬP', text:'sv_ms_capcha_error..'}, false);	
 									}
 									if (user.fail > 6) {
 										configAdmin = {'anti': true};
@@ -73,15 +73,15 @@ let authenticate = function(client, data, callback) {
 									user.fail  = user.fail>>0;
 									user.fail += 1;
 									user.save();
-									callback({title:'ĐĂNG NHẬP', text:'Mật khẩu không chính xác!!'}, false);
+									callback({title:'ĐĂNG NHẬP', text:'sv_ms_login_password_error'}, false);
 								}
 							}
 						}else{
-							callback({title:'ĐĂNG NHẬP', text:'Tài Khoản hoặc mật khẩu không chính xác!!'}, false);
+							callback({title:'ĐĂNG NHẬP', text:'sv_ms_account_or_password_incorrect'}, false);
 						}
 					});
 				} catch (error) {
-					callback({title:'THÔNG BÁO', text:'Có lỗi sảy ra, vui lòng kiểm tra lại!!'}, false);
+					callback({title:'THÔNG BÁO', text:'sv_ms_has_error_try_again'}, false);
 				}
 			}
 		}

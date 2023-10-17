@@ -91,7 +91,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -104,7 +104,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -117,7 +117,7 @@ module.exports = function(client, data){
 						selfClient.red({
 							notice: {
 								title: 'Thông Báo',
-								text: 'Đại lý không được chơi game',
+								text: 'sv_ms_agency_cannot_play',
 								load: false
 							}
 						});
@@ -130,7 +130,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -145,7 +145,8 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
+										// text: 'sv_ms_agency_cannot_play'
 
 								}});
 							}else{
@@ -167,7 +168,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 
 								}});
 							}else{
@@ -189,7 +190,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 
 							});
@@ -204,7 +205,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 
 							});
@@ -217,7 +218,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -230,7 +231,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -243,7 +244,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -256,7 +257,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -269,7 +270,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -282,7 +283,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -296,7 +297,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 								});
 							}else{
@@ -309,7 +310,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 								});
 							}else{
@@ -324,7 +325,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 
 							});
@@ -339,7 +340,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 
 							});
@@ -354,7 +355,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 									}
 
 							});
@@ -370,7 +371,7 @@ module.exports = function(client, data){
 					//					{status:0},
 					//				notice: {
 					//					title: 'Thông Báo',
-					//					text: 'Đại lý không được chơi game'
+					//					text: 'sv_ms_agency_cannot_play'
 					//
 					//			}});
 					//		}else{
@@ -384,7 +385,7 @@ module.exports = function(client, data){
 										{status:0},
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game'
+										text: 'sv_ms_agency_cannot_play'
 
 								}});
 							}else{
@@ -393,7 +394,7 @@ module.exports = function(client, data){
 						}
 						if (!!selfData.zeus) {
 							if(userDL){
-								selfClient.red({Zeus:{status:0}, notice:{text:'Đại lý không được chơi game', title:'THẤT BẠI'}}
+								selfClient.red({Zeus:{status:0}, notice:{text:'sv_ms_agency_cannot_play', title:'THẤT BẠI'}}
 									);
 							}else{
 							Zeus(selfClient, selfData.zeus);
@@ -401,7 +402,7 @@ module.exports = function(client, data){
 						}
 						if (!!selfData.caoboi) {
 							if(userDL){
-								selfClient.red({Caoboi:{status:0}, notice:{text:'Đại lý không được chơi game', title:'THẤT BẠI'}}
+								selfClient.red({Caoboi:{status:0}, notice:{text:'sv_ms_agency_cannot_play', title:'THẤT BẠI'}}
 									);
 							}else{
 							Caoboi(selfClient, selfData.caoboi);
@@ -412,7 +413,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -425,7 +426,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});
@@ -439,7 +440,7 @@ module.exports = function(client, data){
 								selfClient.red({
 									notice: {
 										title: 'Thông Báo',
-										text: 'Đại lý không được chơi game',
+										text: 'sv_ms_agency_cannot_play',
 										load: false
 									}
 								});

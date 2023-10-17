@@ -45,7 +45,7 @@ function regPhone(client, data){
 				}
 			}
 		}else{
-			client.red({notice:{title:'LỖI!',text:'Captcha không đúng.'}});
+			client.red({notice:{title:'LỖI!',text:'sv_ms_capcha_error'}});
 		}
 	}
 	client.c_captcha('regOTP');

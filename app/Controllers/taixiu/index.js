@@ -128,7 +128,7 @@ var cuoc = function(client, data){
                       client.red({
                        notice: {
                         title: 'Thông Báo',
-                        text: 'Đại lý không được chơi game',
+                        text: 'sv_ms_agency_cannot_play',
                         load: false
                        }
                       });

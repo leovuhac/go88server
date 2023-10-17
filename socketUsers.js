@@ -17,11 +17,11 @@ let authenticate = function(client, data, callback) {
 					User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
 						if (!!userToken) {
 							if (userToken.lock === true) {
-								callback({title:'CẤM', text:'Tài khoản bị vô hiệu hóa.'}, false);
+								callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
 								return void 0;
 							}
 							if (void 0 !== userToken.fail && userToken.fail > 3) {
-								callback({title:'THÔNG BÁO', text: 'Vui lòng đăng nhập !!'}, false);
+								callback({title:'THÔNG BÁO', text: 'sv_ms_lets_login !!'}, false);
 								userToken.fail  = userToken.fail>>0;
 								userToken.fail += 1;
 								userToken.save();
@@ -32,15 +32,15 @@ let authenticate = function(client, data, callback) {
 									client.UID = userToken._id.toString();
 									callback(false, true);
 								}else{
-									callback({title:'THẤT BẠI', text:'Bạn hoặc ai đó đã đăng nhập trên 1 thiết bị khác !!'}, false);
+									callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
 								}
 							}
 						}else{
-							callback({title:'THẤT BẠI', text: 'Truy cập bị từ chối !!'}, false);
+							callback({title:'THẤT BẠI', text: 'sv_ms_login_reject'}, false);
 						}
 					});
 				}else{
-					callback({title:'THẤT BẠI', text:'Truy cập bị từ chối !!'}, false);
+					callback({title:'THẤT BẠI', text:'sv_ms_login_reject'}, false);
 				}
 			});
 		} else if(!!data.username && !!data.password){
@@ -53,16 +53,16 @@ let authenticate = function(client, data, callback) {
 
 			if (!validator.isLength(username, {min: 3, max: 32})) {
 				register && client.c_captcha('signUp');
-				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'Tài khoản (3-32 kí tự).'}, false);
+				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'sv_ms_account_character_length.'}, false);
 			}else if (!validator.isLength(password, {min: 6, max: 32})) {
 				register && client.c_captcha('signUp');
-				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'Mật khẩu (6-32 kí tự)'}, false);
+				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'sv_ms_pass_length'}, false);
 			}else if (!testName) {
 				register && client.c_captcha('signUp');
-				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'Tên đăng nhập chỉ gồm kí tự và số !!'}, false);
+				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'sv_ms_account_format'}, false);
 			}else if (username === password) {
 				register && client.c_captcha('signUp');
-				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'Tài khoản không được trùng với mật khẩu!!'}, false);
+				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'sv_ms_acount_password_not_same_error'}, false);
 			}else{
 				try {
 					username = username.toLowerCase();
@@ -70,7 +70,7 @@ let authenticate = function(client, data, callback) {
 					if (register) {
 						if (!client.c_captcha) {
 							client.c_captcha('signUp');
-							callback({title: 'ĐĂNG KÝ', text: 'Captcha không tồn tại.'}, false);
+							callback({title: 'ĐĂNG KÝ', text: 'sv_ms_capcha_not_exits'}, false);
 						}else{
 							let checkCaptcha = new RegExp();
 							checkCaptcha     = checkCaptcha.test(captcha);
@@ -78,7 +78,7 @@ let authenticate = function(client, data, callback) {
 								User.findOne({'local.username':username}).exec(function(err, check){
 									if (!!check){
 										client.c_captcha('signUp');
-										callback({title: 'ĐĂNG KÝ', text: 'Tên tài khoản đã tồn tại !!'}, false);
+										callback({title: 'ĐĂNG KÝ', text: 'sv_ms_account_already_exits'}, false);
 									}else{
 										User.create({'local.username':username, 'local.password':helpers.generateHash(password), 'local.regDate': new Date()}, function(err, user){
 											if (!!user){
@@ -86,14 +86,14 @@ let authenticate = function(client, data, callback) {
 												callback(false, true);
 											}else{
 												client.c_captcha('signUp');
-												callback({title: 'ĐĂNG KÝ', text: 'Tên tài khoản đã tồn tại !!'}, false);
+												callback({title: 'ĐĂNG KÝ', text: 'sv_ms_account_already_exits'}, false);
 											}
 										});
 									}
 								});
 							}else{
 								client.c_captcha('signUp');
-								callback({title: 'ĐĂNG KÝ', text: 'Captcha không đúng.'}, false);
+								callback({title: 'ĐĂNG KÝ', text: 'sv_ms_capcha_error'}, false);
 							}
 						}
 					} else {
@@ -101,13 +101,13 @@ let authenticate = function(client, data, callback) {
 						User.findOne({'local.username':username}, function(err, user){
 							if (user){
 								if (user.lock === true) {
-									callback({title:'CẤM', text:'Tài khoản bị vô hiệu hóa.'}, false);
+									callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
 									return void 0;
 								}
 								if (void 0 !== user.fail && user.fail > 3) {
 									if (!captcha || !client.c_captcha) {
 										client.c_captcha('signIn');
-										callback({title:'ĐĂNG NHẬP', text:'Phát hiện truy cập trái phép, vui lòng nhập captcha để tiếp tục.'}, false);
+										callback({title:'ĐĂNG NHẬP', text:'sv_ms_fill_capchat_to_continue'}, false);
 									}else{
 										let checkCLogin = new RegExp('^' + client.captcha + '$', 'i');
 										checkCLogin     = checkCLogin.test(captcha);
@@ -122,13 +122,13 @@ let authenticate = function(client, data, callback) {
 												client.c_captcha('signIn');
 												user.fail += 1;
 												user.save();
-												callback({title: 'ĐĂNG NHẬP', text: 'Mật khẩu không chính xác!!'}, false);
+												callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_login_password_error'}, false);
 											}
 										}else{
 											user.fail += 1;
 											user.save();
 											client.c_captcha('signIn');
-											callback({title: 'ĐĂNG NHẬP', text: 'Captcha không đúng...'}, false);
+											callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_capcha_error..'}, false);
 										}
 									}
 								}else{
@@ -139,22 +139,22 @@ let authenticate = function(client, data, callback) {
 										client.UID = user._id.toString();
 										callback(false, true);
 									}else{
-										callback({title: 'ĐĂNG NHẬP', text: 'Tài khoản bị khoá. Vui lòng liên hệ CSKH để được hỗ trợ'}, false);
+										callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_account_locked_contact'}, false);
 									}
 									}else{
 										user.fail  = user.fail>>0;
 										user.fail += 1;
 										user.save();
-										callback({title: 'ĐĂNG NHẬP', text: 'Mật khẩu không chính xác!!'}, false);
+										callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_login_password_error'}, false);
 									}
 								}
 							}else{
-								callback({title: 'ĐĂNG NHẬP', text: 'Tên Tài Khoản không tồn tại!!'}, false);
+								callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_account_not_exits'}, false);
 							}
 						});
 					}
 				} catch (error) {
-					callback({title: 'THÔNG BÁO', text: 'Có lỗi xảy ra, vui lòng kiểm tra lại!!'}, false);
+					callback({title: 'THÔNG BÁO', text: 'sv_ms_has_error_try_again'}, false);
 				}
 			}
 		}

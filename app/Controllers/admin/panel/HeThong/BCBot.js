@@ -13,7 +13,7 @@ module.exports = function(client, data) {
 	if (TT != null) {	
 		fs.writeFile(path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__dirname))))) + '/config/baucua.json', JSON.stringify(file), function(err){
 			if (!!err) {
-				client.red({notice:{title:'THẤT BẠI', text:'đổi chế độ thất bại...'}});
+				client.red({notice:{title:'THẤT BẠI', text:'sv_ms_change_mode_false'}});
 			}
 		});
 	}
