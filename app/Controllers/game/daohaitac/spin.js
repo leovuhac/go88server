@@ -333,7 +333,7 @@ module.exports = function(client, data){
 		let red  = true;                     // Loại tiền (Red:true, Xu:false)
 		let line = Array.from(new Set(data.line)); // Dòng cược // fix trùng lặp
 		if (!(bet == 100 || bet == 1000 || bet == 10000) || line.length < 1) {
-			client.red({daohaitac:{status:0}, notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'THẤT BẠI'}});
+			client.red({daohaitac:{status:0}, notice:{text:'sv_ms_data_incorrect', title:'THẤT BẠI'}});
 		}else{
 			client.Daohaitac = void 0 === client.Daohaitac ? {id:'', red:red, bet:bet, bonus:null, bonusL:0, bonusWin:0, free:0} :client.Daohaitac;
 			client.Daohaitac.red = red;

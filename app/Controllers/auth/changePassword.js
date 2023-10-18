@@ -10,7 +10,7 @@ module.exports = function(req, res) {
                 status: 200,
                 success: false,
                 data: {
-                    oldPass: 'Độ dài mật khẩu từ 6 đến 32 ký tự !!'
+                    oldPass: 'sv_ms_pass_length'
                 }
             });
         } else if (!validator.isLength(Data.newPass, { min: 6, max: 32 })) {
@@ -18,7 +18,7 @@ module.exports = function(req, res) {
                 status: 200,
                 success: false,
                 data: {
-                    newPass: 'Độ dài mật khẩu từ 6 đến 32 ký tự !!'
+                    newPass: 'sv_ms_pass_length'
                 }
             });
         } else if (!validator.isLength(Data.confirmPass, { min: 6, max: 32 })) {
@@ -26,7 +26,7 @@ module.exports = function(req, res) {
                 status: 200,
                 success: false,
                 data: {
-                    confirmPass: 'Độ dài mật khẩu từ 6 đến 32 ký tự !!'
+                    confirmPass: 'sv_ms_pass_length'
                 }
             });
         } else if (Data.oldPass == Data.newPass) {

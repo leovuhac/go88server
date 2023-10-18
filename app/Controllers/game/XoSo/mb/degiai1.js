@@ -59,6 +59,6 @@ module.exports = function(client, data){
 			client.red({XoSo:{notice:'Số điểm tối đa là 1.000.000'}});
 		}
 	}else{
-		client.red({XoSo:{notice:'Dữ liệu không đúng...'}});
+		client.red({XoSo:{notice:'sv_ms_data_incorrect'}});
 	}
 };

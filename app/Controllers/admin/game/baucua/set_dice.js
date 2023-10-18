@@ -11,7 +11,7 @@ module.exports = function(client, data) {
 		file.rights = client.rights;
 		fs.writeFile(path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__dirname))))) + '/data/baucua.json', JSON.stringify(file), function(err){
 			if (!!err) {
-				client.red({notice:{title:'THẤT BẠI', text:'Đặt kết quả thất bại...'}});
+				client.red({notice:{title:'THẤT BẠI', text:'Failed...'}});
 			}else{
 				client.redT.admins[client.UID].forEach(function(obj){
 					obj.red({baucua:{dices:[file[0], file[1], file[2]]}});

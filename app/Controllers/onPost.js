@@ -43,7 +43,6 @@ module.exports = function(client, p){
 			GetNhiemVu(client, p.nhiemvu);
 		}
 		if (!!p.nhanthuong){
-			//client.red({notice:{title:"NHIỆM VỤ", text:'Bảo trì nhiệm vụ.'}});
 			NhiemVu(client, p.nhanthuong);
 		}
 		if (!!p.message){

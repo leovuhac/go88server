@@ -10,7 +10,7 @@ module.exports = function(client, data){
 		let min = room*20;
 		let max = room*200;
 		if (balans < min || balans > max) {
-			client.red({notice:{title:'THẤT BẠI', text:'Dữ liệu không đúng...', load:false}});
+			client.red({notice:{title:'THẤT BẠI', text:'sv_ms_data_incorrect', load:false}});
 		}else{
 
 			let totall = client.poker.balans+balans;

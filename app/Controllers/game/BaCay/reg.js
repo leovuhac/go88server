@@ -57,7 +57,7 @@ module.exports = function(client, room){
 			}
 		}
 	}else{
-		client.red({notice:{title:'THẤT BẠI', text:'Dữ liệu không đúng...', load:false}});
+		client.red({notice:{title:'THẤT BẠI', text:'sv_ms_data_incorrect', load:false}});
 		room = null;
 		client = null;
 	}

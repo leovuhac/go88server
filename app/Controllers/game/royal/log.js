@@ -8,7 +8,7 @@ module.exports = function(client, data){
 		var page = data.page>>0; // trang
 		var red  = !!data.red;   // Loại tiền (Red: true, Xu: false)
 		if (page < 1) {
-			client.red({notice:{text: 'DỮ LIỆU KHÔNG ĐÚNG...', title: 'THẤT BẠI'}});
+			client.red({notice:{text: 'sv_ms_data_incorrect', title: 'THẤT BẠI'}});
 		}else{
 			var kmess = 10;
 			if (red) {

@@ -65,6 +65,6 @@ module.exports = function(client, data) {
             }
         }
     }else{
-		client.red({notice:{title:"VIPRIK BET", text:'Dữ liệu không đúng...'}});
+		client.red({notice:{title:"VIPRIK BET", text:'sv_ms_data_incorrect'}});
 	}
 }

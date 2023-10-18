@@ -5,7 +5,7 @@ module.exports = function(client, data){
 	if(!!data){
 		var page = data>>0; // trang
 		if (page < 1) {
-			client.red({notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'THẤT BẠI'}});
+			client.red({notice:{text:'sv_ms_data_incorrect', title:'THẤT BẠI'}});
 		}else{
 			var kmess = 10;
 			History.countDocuments({uid:client.UID}).exec(function(err, total){

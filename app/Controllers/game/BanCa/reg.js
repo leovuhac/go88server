@@ -20,7 +20,7 @@ module.exports = function(client, data){
 			let min = bet[room]*500;
 			let max = bet[room]*5000;
 			if (balans < min || balans > max) {
-				client.red({notice:{title:'THẤT BẠI', text:'Dữ liệu không đúng...', load: false}});
+				client.red({notice:{title:'THẤT BẠI', text:'sv_ms_data_incorrect', load: false}});
 			}else{
 				let inGame = false;
 				client.redT.users[client.UID].forEach(function(obj){
@@ -62,7 +62,7 @@ module.exports = function(client, data){
 				}
 			}
 		}else{
-			client.red({notice:{title:'THẤT BẠI', text:'Dữ liệu không đúng...', load: false}});
+			client.red({notice:{title:'THẤT BẠI', text:'sv_ms_data_incorrect', load: false}});
 		}
 	}
 }

@@ -17,20 +17,20 @@ function createOTP(client){
 							telegram.findOne({'phone':check.phone}, 'form', function(err3, teleCheck){
 								if (!!teleCheck) {
 									OTP.create({'uid':client.UID, 'phone':check.phone, 'code':otp, 'date':new Date()});
-									client.red({notice:{title:'THÔNG BÁO', text:'Mã OTP đã được gửi tới Telegram của bạn.'}});
+									client.red({notice:{title:'THÔNG BÁO', text:'OTP sent to Telegram'}});
 									let testCheck = client.redT.telegram.sendMessage(teleCheck.form, '*OTP*:  ' + otp + '', {parse_mode:'markdown', reply_markup:{remove_keyboard: true}});
 								}else{
-									client.red({notice:{title:'THẤT BẠI', text:'Bạn cần xác thực Telegram để lấy OTP.'}});
+									client.red({notice:{title:'THẤT BẠI', text:'You need verify Telegram to get OTP.'}});
 								}
 							});
 						}
 					});
 				}else{
-					client.red({notice:{title:'OTP', text:'Vui lòng kiểm tra hòm thư đến trong Telegram.!'}});
+					client.red({notice:{title:'OTP', text:'Check inbox in Telegram.!'}});
 				}
 			});
 		}else{
-			client.red({notice:{title:'THÔNG BÁO', text:'Bạn cần kích hoạt số điện thoại để sử dụng chức năng này.', button: {text:'KÍCH HOẠT', type:'reg_otp'}}});
+			client.red({notice:{title:'THÔNG BÁO', text:'You have to verify mobile number to use this feature', button: {text:'KÍCH HOẠT', type:'reg_otp'}}});
 		}
 	});
 }

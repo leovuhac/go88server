@@ -15,7 +15,7 @@ function spin(client, data){
 	if (!!data && !!data.cuoc) {
 		let bet = data.cuoc>>0; // Mức cược
 		if (!(bet == 100 || bet == 1000 || bet == 10000)) {
-			client.red({mini:{poker:{status:0}}, notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'MINI POKER'}});
+			client.red({mini:{poker:{status:0}}, notice:{text:'sv_ms_data_incorrect', title:'MINI POKER'}});
 		}else{
 			UserInfo.findOne({id:client.UID}, 'red name', function(err, user){
 				if (!user || user.red < bet) {
@@ -260,7 +260,7 @@ function log(client, data){
 	if (!!data && !!data.page) {
 		let page = data.page>>0; // trang
 		if (page < 1) {
-			client.red({notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'MINI POKER'}});
+			client.red({notice:{text:'sv_ms_data_incorrect', title:'MINI POKER'}});
 		}else{
 			let kmess = 9;
 			miniPokerRed.countDocuments({name:client.profile.name}).exec(function(err, total){

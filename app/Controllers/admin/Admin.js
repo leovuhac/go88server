@@ -13,23 +13,23 @@ function first(client) {
 function changePassword(client, data){
 	if (!!data && !!data.password && !!data.newPassword && !!data.newPassword2) {
 		if (!validator.isLength(data.password, {min: 6, max: 32})) {
-			client.red({notice: {title:'LỖI', text: 'Độ dài mật khẩu từ 6 đến 32 ký tự !!'}});
+			client.red({notice: {title:'LỖI', text: 'sv_ms_pass_length'}});
 		}else if (!validator.isLength(data.newPassword, {min: 6, max: 32})) {
-			client.red({notice: {title:'LỖI', text: 'Độ dài mật khẩu từ 6 đến 32 ký tự !!'}});
+			client.red({notice: {title:'LỖI', text: 'sv_ms_pass_length'}});
 		}else if (!validator.isLength(data.newPassword2, {min: 6, max: 32})) {
-			client.red({notice: {title:'LỖI', text: 'Độ dài mật khẩu từ 6 đến 32 ký tự !!'}});
+			client.red({notice: {title:'LỖI', text: 'sv_ms_pass_length'}});
 		} else if (data.password == data.newPassword){
-			client.red({notice: {title:'LỖI', text: 'Mật khẩu mới không trùng với mật khẩu cũ.!!'}});
+			client.red({notice: {title:'LỖI', text: 'Password not same as old password!!'}});
 		} else if (data.newPassword != data.newPassword2){
-			client.red({notice: {title:'LỖI', text: 'Nhập lại mật khẩu không đúng!!'}});
+			client.red({notice: {title:'LỖI', text: 'sv_ms_reconfirm_pass_error'}});
 		} else {
 			Admin.findOne({'_id': client.UID}, function(err, user){
 				if (user !== null) {
 					if (Helper.validPassword(data.password, user.password)) {
 						Admin.updateOne({'_id': client.UID}, {$set:{'password':Helper.generateHash(data.newPassword)}}).exec();
-						client.red({notice:{title:'ĐỔI MẬT KHẨU',text:'Đổi mật khẩu thành công.'}});
+						client.red({notice:{title:'ĐỔI MẬT KHẨU',text:'Success.'}});
 					}else{
-						client.red({notice:{title:'ĐỔI MẬT KHẨU',text:'Mật khẩu cũ không đúng.'}});
+						client.red({notice:{title:'ĐỔI MẬT KHẨU',text:'Failed.'}});
 					}
 				}
 			});

@@ -6,7 +6,7 @@ module.exports = function(client, data) {
             info.blacklist = 1;
             info.save();
             tabTranDau.find({'blacklist':0}, function(err, tab){
-                client.red({bongda:{data:tab}, notice:{title:'VIPRIK BET',text:'Xóa thành công'}});
+                client.red({bongda:{data:tab}, notice:{title:'VIPRIK BET',text:'Success'}});
             });
             //client.red({notice:{title:'VIPRIK BET',text:'Xóa thành công'}});
         }else{

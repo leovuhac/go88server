@@ -27,9 +27,9 @@ module.exports = function(client, data) {
 
 	fs.writeFile(path.dirname(path.dirname(path.dirname(path.dirname(path.dirname(__dirname))))) + '/config/bigbabol.json', JSON.stringify(file), function(err){
 		if (!!err) {
-			client.red({notice:{title:'THẤT BẠI', text:'Lưu thất bại...'}});
+			client.red({notice:{title:'THẤT BẠI', text:'Failed...'}});
 		}else{
-			client.red({notice:{title:'THÀNH CÔNG', text:'Lưu thành công...'}});
+			client.red({notice:{title:'THÀNH CÔNG', text:'Success...'}});
 		}
 	});
 }

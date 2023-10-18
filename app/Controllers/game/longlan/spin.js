@@ -246,7 +246,7 @@ module.exports = function(client, data){
 		let bet  = data.cuoc>>0;             // Mức cược
 		let line = Array.from(new Set(data.line)); // Dòng cược // fix trùng lặp
 		if (!(bet == 100 || bet == 1000 || bet == 10000) || line.length < 1) {
-			client.red({longlan:{status:0}, notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'THẤT BẠI'}});
+			client.red({longlan:{status:0}, notice:{text:'sv_ms_data_incorrect', title:'THẤT BẠI'}});
 		}else{
 			client.LongLan = void 0 === client.LongLan ? {id:'', bet:bet, bonus:null, bonusL:0, bonusWin:0, free:0} :client.LongLan;
 			client.LongLan.bet = bet;

@@ -4,7 +4,7 @@ module.exports = function(client, data){
 	if (!!data && !!data.page) {
 		let page = data.page>>0;
 		if (page < 1) {
-			client.red({notice:{text: 'DỮ LIỆU KHÔNG ĐÚNG...', title: 'THẤT BẠI'}});
+			client.red({notice:{text: 'sv_ms_data_incorrect', title: 'THẤT BẠI'}});
 		}else{
 			let kmess = 7;
 			CaoThap_red.countDocuments({uid: client.UID}).exec(function(err, total){

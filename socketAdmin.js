@@ -59,7 +59,7 @@ let authenticate = function(client, data, callback) {
 									if (user.fail > 6) {
 										configAdmin = {'anti': true};
 										setConfig('admin', configAdmin);
-										callback({title:'ĐĂNG NHẬP', text:'Phát hiện truy cập trái phép, Đóng đăng nhập.'}, false);	
+										callback({title:'ĐĂNG NHẬP', text:'sv_ms_account_security_logout'}, false);	
 										return void 0;
 									}
 								}

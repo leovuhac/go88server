@@ -4,7 +4,7 @@ let BigBabol_red = require('../../../Models/BigBabol/BigBabol_red');
 module.exports = function(client, data){
 	let page = data.page>>0; // trang
 	if (page < 1) {
-		client.red({notice:{text: 'DỮ LIỆU KHÔNG ĐÚNG...', title: 'THẤT BẠI'}});
+		client.red({notice:{text: 'sv_ms_data_incorrect', title: 'THẤT BẠI'}});
 	}else{
 		let kmess = 9;
 		BigBabol_red.countDocuments({name: client.profile.name}).exec(function(err, total){

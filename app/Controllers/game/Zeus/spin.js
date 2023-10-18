@@ -341,7 +341,7 @@ module.exports = function(client, data){
 		let bet  = data.cuoc>>0;                   // Mức cược
 		let line = Array.from(new Set(data.line)); // Dòng cược // fix trùng lặp
 		if (!(bet == 100 || bet == 1000 || bet == 10000) || line.length < 1) {
-			client.red({Zeus:{status:0}, notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'THẤT BẠI'}});
+			client.red({Zeus:{status:0}, notice:{text:'sv_ms_data_incorrect', title:'THẤT BẠI'}});
 		}else{
 			client.Zeus = void 0 === client.Zeus ? {id:'', bet:bet, bonus:null, bonusL:0, bonusWin:0, free:0} :client.Zeus;
 			client.Zeus.bet = bet;

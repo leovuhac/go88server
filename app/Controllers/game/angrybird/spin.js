@@ -120,7 +120,7 @@ module.exports = function(client, data){
 	if (!!data && !!data.cuoc) {
 		let bet = data.cuoc>>0;   // Mức cược
 		if (!(bet == 100 || bet == 1000 || bet == 10000)) {
-			client.red({mini:{arb:{status:0}}, notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'THẤT BẠI'}});
+			client.red({mini:{arb:{status:0}}, notice:{text:'sv_ms_data_incorrect', title:'THẤT BẠI'}});
 		}else{
 			UserInfo.findOne({id:client.UID}, 'red name', function(err, user){
 				if (!user || user.red < bet) {

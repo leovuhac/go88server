@@ -107,7 +107,7 @@ module.exports = function(client, data){
 		let bet  = data.cuoc>>0;                   // Mức cược
 		let line = Array.from(new Set(data.line)); // Dòng cược // fix trùng lặp
 		if (!(bet == 100 || bet == 1000 || bet == 10000) || line.length < 1) {
-			client.red({mini:{big_babol:{status:0}}, notice:{text:'DỮ LIỆU KHÔNG ĐÚNG...', title:'THẤT BẠI'}});
+			client.red({mini:{big_babol:{status:0}}, notice:{text:'sv_ms_data_incorrect', title:'THẤT BẠI'}});
 		}else{
 			let cuoc = bet*line.length;  // Tiền cược
 			UserInfo.findOne({id:client.UID}, 'red name', function(err, user){

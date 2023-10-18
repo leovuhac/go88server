@@ -24,11 +24,11 @@ module.exports = function(client, data) {
                 if (!!dataC) {
                     phienBongDa.create({'phien': dataC.phien,'nameDoi1': dataC.team1, 'nameDoi2': dataC.team2, 'team1win': dataC.team1win, 'team2win': dataC.team2win, 'hoa': dataC.hoa, 'time': new Date()});
                     tabTranDau.find({'blacklist':0}, function(err, data){
-                        client.red({bongda:{data:data}, notice:{title:'VIPRIK BET',text:'Thêm thành công...'}});
+                        client.red({bongda:{data:data}, notice:{title:'VIPRIK BET',text:'Success...'}});
                     });
                 }
                 else{
-                    client.red({notice:{title:'VIPRIK BET',text:'Có lỗi xảy ra, xin vui lòng thử lại.'}});
+                    client.red({notice:{title:'VIPRIK BET',text:'Failed.'}});
                 }
             });
 		}
