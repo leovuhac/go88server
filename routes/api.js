@@ -13,6 +13,24 @@ module.exports = function(app, redT) {
 	app.get('/api/callback/prepaid_card', function(req, res) {
 		return res.render('callback/prepaid_card');
 	});
+
+	//xu ly login TP wallet
+	app.get('/callbackloginwallet', function(req, res) {
+		// Lấy các tham số từ yêu cầu
+		let code = req.query.code;
+		let state = req.query.state;
+		let data = req.body;
+
+		console.log("code : " + code + " - body:" + data);
+		// Xử lý logic tùy theo mục đích
+		// Ví dụ: xác thực mã code và lưu trữ trạng thái
+		
+		// Gửi phản hồi
+		// res.send('Callback TP wallet successful! ');
+		return res.render('callback/prepaid_card');
+
+	});
+
 	app.post('/api/callback/prepaid_card', function(req, res) {
 		try {
 			let data = req.body;
