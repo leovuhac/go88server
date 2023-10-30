@@ -17,6 +17,7 @@ module.exports = function(app, redT) {
 	//xu ly login TP wallet
 	app.get('/callbackloginwallet', function(req, res) {
 		// Lấy các tham số từ yêu cầu
+		console.log("callbackloginwallet.............");
 		let code = req.query.code;
 		let state = req.query.state;
 		let data = req.body;
