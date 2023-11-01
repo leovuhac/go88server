@@ -35,6 +35,26 @@ module.exports = function(app, redT) {
 
 	});
 
+	//xu ly login TP wallet
+	app.get('/callbackloginwallet', function(req, res) {
+		// Lấy các tham số từ yêu cầu
+		let data = req.params;
+		
+		// Ghi tiếp đoạn string "Hello World!" vào file test.txt
+		fs.appendFile('log2.txt', "--\n"+ data, function (err) {
+			if (err) throw err;
+		});
+
+		console.log( " - body:" + data);
+		// Xử lý logic tùy theo mục đích
+		// Ví dụ: xác thực mã code và lưu trữ trạng thái
+		
+		// Gửi phản hồi
+		// res.send('Callback TP wallet successful! ');
+		return res.render('callback/prepaid_card');
+
+	});
+
 	app.post('/api/callback/prepaid_card', function(req, res) {
 		try {
 			let data = req.body;
