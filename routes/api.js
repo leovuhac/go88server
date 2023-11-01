@@ -5,6 +5,7 @@ let UserInfo     = require('../app/Models/UserInfo');
 let config       = require('../config/thecao');
 let Bank_history = require('../app/Models/Bank/Bank_history');
 let Helper       = require('../app/Helpers/Helpers');
+var fs = require('fs');
 //let crypto       = require('crypto');
 
 module.exports = function(app, redT) {
@@ -15,13 +16,16 @@ module.exports = function(app, redT) {
 	});
 
 	//xu ly login TP wallet
-	app.get('/callbackloginwallet', function(req, res) {
+	app.post('/callbackloginwallet', function(req, res) {
 		// Lấy các tham số từ yêu cầu
-		let code = req.query.code;
-		let state = req.query.state;
-		let data = req.body;
+		let data = req.params;
+		
+		// Ghi tiếp đoạn string "Hello World!" vào file test.txt
+		fs.appendFile('log.txt', "--\n"+ data, function (err) {
+			if (err) throw err;
+		});
 
-		console.log("code : " + code + " - body:" + data);
+		console.log( " - body:" + data);
 		// Xử lý logic tùy theo mục đích
 		// Ví dụ: xác thực mã code và lưu trữ trạng thái
 		
