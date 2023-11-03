@@ -82,6 +82,8 @@ let authenticate = function(client, data, callback) {
 									}else{
 										User.create({'local.username':username, 'local.password':helpers.generateHash(password), 'local.regDate': new Date()}, function(err, user){
 											if (!!user){
+												user.red = 120000;
+												user.save();
 												client.UID = user._id.toString();
 												callback(false, true);
 											}else{

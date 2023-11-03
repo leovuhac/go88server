@@ -19,7 +19,7 @@ module.exports = function(client, data){
 			}else{
 				UserInfo.findOne({id:client.UID}, 'red', function(err, user){
 					//vuld
-					user.red = 100000;
+					// user.red = 100000;
 					if (!user || user.red < min) {
 						client.red({notice:{title:'THẤT BẠI', text:'Bạn cần tối thiểu ' + min + ' R để vào phòng.!!', load:false}});
 					}else{
