@@ -13,7 +13,7 @@
 
 
 module.exports = {
-	'url': 'mongodb://127.0.0.1:27017',
+	'url': 'mongodb+srv://fedayroi:220291@cluster0.7g4mwj4.mongodb.net/',
 	'options': {
 	//	'user':   'root',
 	//	'pass':   '',
