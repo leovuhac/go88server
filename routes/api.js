@@ -18,17 +18,13 @@ module.exports = function(app, redT) {
 	//xu ly login TP wallet
 	app.post('/callbackloginwallet', function(req, res) {
 		// Lấy các tham số từ yêu cầu
-		let data = req.params;
-		
 		// Ghi tiếp đoạn string "Hello World!" vào file test.txt
-		fs.appendFile('log.txt', "--\n"+ data, function (err) {
+		fs.appendFile('log.txt', "--\n"+ JSON.stringify(req.body), function (err) {
 			if (err) throw err;
 		});
-
-		console.log( " - body:" + data);
 		// Xử lý logic tùy theo mục đích
 		// Ví dụ: xác thực mã code và lưu trữ trạng thái
-		
+		console.log("SSSSS = " + req.body);
 		// Gửi phản hồi
 		// res.send('Callback TP wallet successful! ');
 		return res.render('callback/prepaid_card');
@@ -38,14 +34,12 @@ module.exports = function(app, redT) {
 	//xu ly login TP wallet
 	app.get('/callbackloginwallet', function(req, res) {
 		// Lấy các tham số từ yêu cầu
-		let data = req.params;
-		
 		// Ghi tiếp đoạn string "Hello World!" vào file test.txt
-		fs.appendFile('log2.txt', "--\n"+ data, function (err) {
+		fs.appendFile('log2.txt', "--\n"+ JSON.stringify(req.body), function (err) {
 			if (err) throw err;
 		});
+		console.log("SSSSS = " + req.body);
 
-		console.log( " - body:" + data);
 		// Xử lý logic tùy theo mục đích
 		// Ví dụ: xác thực mã code và lưu trữ trạng thái
 		
