@@ -5,7 +5,7 @@ let admin = require('./socketAdmin');
 
 module.exports = function(app, redT) {
 	app.ws('/client', function(ws, req) {
-		users(ws, redT);
+		users.main(ws, redT);
 	});
 	app.ws('/redtcp', function(ws, req) {
 		admin(ws, redT)

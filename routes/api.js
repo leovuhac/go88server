@@ -6,8 +6,10 @@ let config       = require('../config/thecao');
 let Bank_history = require('../app/Models/Bank/Bank_history');
 let Helper       = require('../app/Helpers/Helpers');
 var fs = require('fs');
-//let crypto       = require('crypto');
+let UserController = require('../app/Controllers/User');
+let Users = require('../socketUsers');
 
+//let crypto       = require('crypto');
 module.exports = function(app, redT) {
 	// Sign API
 
@@ -15,38 +17,52 @@ module.exports = function(app, redT) {
 		return res.render('callback/prepaid_card');
 	});
 
+	
+	var parseParamers = function(url) {
+		var i, indexOfPageId, key, keyValueList, keyValueMap, match, pair, queryString, regex, value;
+		indexOfPageId = url.indexOf("#/");
+		if (indexOfPageId !== -1) {
+			url = url.substring(0, indexOfPageId);
+		}
+		regex = /.*\?(.*)/;
+		match = regex.exec(url);
+		keyValueMap = {};
+		if (match) {
+			queryString = match[1];
+			keyValueList = queryString.split("&");
+			i = 0;
+			while (i < keyValueList.length) {
+			pair = keyValueList[i].split("=");
+			key = pair[0];
+			value = pair[1];
+			keyValueMap[key] = value;
+			i++;
+			}
+		}
+		return keyValueMap;
+	};
 	//xu ly login TP wallet
 	app.post('/callbackloginwallet', function(req, res) {
-		// Lấy các tham số từ yêu cầu
-		// Ghi tiếp đoạn string "Hello World!" vào file test.txt
-		fs.appendFile('log.txt', "--\n"+ JSON.stringify(req.body), function (err) {
+		fs.appendFile('log.txt', "\n--\n"+ JSON.stringify(req.body), function (err) {
 			if (err) throw err;
 		});
-		// Xử lý logic tùy theo mục đích
-		// Ví dụ: xác thực mã code và lưu trữ trạng thái
-		console.log("SSSSS = " + req.body);
-		// Gửi phản hồi
-		// res.send('Callback TP wallet successful! ');
-		return res.render('callback/prepaid_card');
-
-	});
-
-	//xu ly login TP wallet
-	app.get('/callbackloginwallet', function(req, res) {
-		// Lấy các tham số từ yêu cầu
-		// Ghi tiếp đoạn string "Hello World!" vào file test.txt
-		fs.appendFile('log2.txt', "--\n"+ JSON.stringify(req.body), function (err) {
+		var accountWallet = req.body.data.account;
+		var password = req.body.data.timestamp;
+		var paramsN = parseParamers(req.originalUrl)
+		var username = paramsN["username"];
+		fs.appendFile('log.txt', "\n------\n"+ accountWallet, function (err) {
 			if (err) throw err;
 		});
-		console.log("SSSSS = " + req.body);
-
-		// Xử lý logic tùy theo mục đích
-		// Ví dụ: xác thực mã code và lưu trữ trạng thái
-		
-		// Gửi phản hồi
-		// res.send('Callback TP wallet successful! ');
-		return res.render('callback/prepaid_card');
-
+		console.log("accountWallet=" + accountWallet + "  password=" + password);
+		var clientInstance = UserController.socketClients.find(function(client) {
+			return client.UID === username;
+		});
+		var index = UserController.socketClients.findIndex(function(client) {
+			return client.UID === username;
+		});
+		UserController.socketClients.splice(index, 1);
+		Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
+		return 1;
 	});
 
 	app.post('/api/callback/prepaid_card', function(req, res) {

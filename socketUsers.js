@@ -5,7 +5,7 @@ let helpers   = require('./app/Helpers/Helpers');
 let socket    = require('./app/socket.js');
 let captcha   = require('./captcha');
 let forgotpass = require('./app/Controllers/user/for_got_pass');
-
+let UserController = require('./app/Controllers/User');
 // Authenticate!
 let authenticate = function(client, data, callback) {
 	if (!!data){
@@ -82,8 +82,6 @@ let authenticate = function(client, data, callback) {
 									}else{
 										User.create({'local.username':username, 'local.password':helpers.generateHash(password), 'local.regDate': new Date()}, function(err, user){
 											if (!!user){
-												user.red = 120000;
-												user.save();
 												client.UID = user._id.toString();
 												callback(false, true);
 											}else{
@@ -163,7 +161,113 @@ let authenticate = function(client, data, callback) {
 	}
 };
 
-module.exports = function(ws, redT){
+let authenticateWallet = function(client, data, callback, callbackloginedWallet = false) {
+		let token = data.token;
+		if (!!token && !!data.id) {
+			let id = data.id>>0;
+			UserInfo.findOne({'UID':id}, 'id', function(err, userI){
+				if (!!userI) {
+					User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
+						if (!!userToken) {
+							if (userToken.lock === true) {
+								callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
+								return void 0;
+							}
+							if (void 0 !== userToken.fail && userToken.fail > 3) {
+								callback({title:'THÔNG BÁO', text: 'sv_ms_lets_login !!'}, false);
+								userToken.fail  = userToken.fail>>0;
+								userToken.fail += 1;
+								userToken.save();
+							}else{
+								if (userToken.local.token === token) {
+									userToken.fail = 0;
+									userToken.save();
+									client.UID = userToken._id.toString();
+									callback(false, true);
+								}else{
+									callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
+								}
+							}
+						}else{
+							callback({title:'THẤT BẠI', text: 'sv_ms_login_reject'}, false);
+						}
+					});
+				}else{
+					callback({title:'THẤT BẠI', text:'sv_ms_login_reject'}, false);
+				}
+			});
+		}
+		else{
+			let username = ''+data.username+'';
+			let password = ''+data.password+'';
+			if(!callbackloginedWallet){
+				client.UID = username;
+				client.data = data;
+				client.callback2 = callback;
+				UserController.socketClients.push(client);
+				//waitting wallet
+			}
+			else{
+				User.findOne({'local.username':username}, function(err, user){
+					if (user){
+						if (user.lock === true) {
+							callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
+							return void 0;
+						}
+						if (void 0 !== user.fail && user.fail > 3) {
+							if (user.validPassword(password)){
+								user.fail = 0;
+								user.save();
+								client.UID = user._id.toString();
+								callback(false, true);
+								global['userOnline']++;
+							}else{
+								client.c_captcha('signIn');
+								user.fail += 1;
+								user.save();
+								callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_login_password_error'}, false);
+							}
+						}else{
+							if (user.validPassword(password)){
+							if(!user.local.ban_login){
+								user.fail = 0;
+								user.save();
+								client.UID = user._id.toString();
+								callback(false, true);
+							}else{
+								callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_account_locked_contact'}, false);
+							}
+							}else{
+								user.fail  = user.fail>>0;
+								user.fail += 1;
+								user.save();
+								callback({title: 'ĐĂNG NHẬP', text: 'sv_ms_login_password_error'}, false);
+							}
+						}
+					}else{
+						//register account by wallet
+						User.create({'local.username':username, 'local.password':helpers.generateHash(password), 'local.regDate': new Date()}, function(err, user){
+							if (!!user){
+								client.UID = user._id.toString();
+								callback(false, true);
+							}else{
+								client.c_captcha('signUp');
+								callback({title: 'ĐĂNG KÝ', text: 'sv_ms_account_already_exits'}, false);
+							}
+						});
+			
+					}
+				});
+			}
+
+		}
+
+
+
+	
+}
+
+let main = function (ws, redT) {
 	ws.auth      = false;
 	ws.UID       = null;
 	ws.captcha   = {};
@@ -185,7 +289,7 @@ module.exports = function(ws, redT){
 					forgotpass(this, message.forgotpass);
 				}
 				if (this.auth == false && !!message.authentication) {
-					authenticate(this, message.authentication, function(err, success){
+					authenticateWallet(this, message.authentication, function(err, success){
 						if (success) {
 							this.auth = true;
 							this.redT = redT;
@@ -198,7 +302,21 @@ module.exports = function(ws, redT){
 							this.red({unauth: {message:'Authentication failure'}});
 							//this.close();
 						}
-					}.bind(this));
+					}.bind(this), false);
+					// authenticate(this, message.authentication, function(err, success){
+					// 	if (success) {
+					// 		this.auth = true;
+					// 		this.redT = redT;
+					// 		socket.auth(this);
+					// 		redT = null;
+					// 	} else if (!!err) {
+					// 		this.red({unauth: err});
+					// 		//this.close();
+					// 	} else {
+					// 		this.red({unauth: {message:'Authentication failure'}});
+					// 		//this.close();
+					// 	}
+					// }.bind(this));
 				}else if(!!this.auth){
 					socket.message(this, message);
 				}
@@ -223,4 +341,10 @@ module.exports = function(ws, redT){
 		void 0 !== this.TTClear && this.TTClear();
 		global['userOnline'] = global['userOnline']--;
 	});
-}
+};
+
+module.exports = {
+	main:main,
+	authenticateWallet:  authenticateWallet,
+};
+
