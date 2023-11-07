@@ -53,15 +53,22 @@ module.exports = function(app, redT) {
 		fs.appendFile('log.txt', "\n------\n"+ accountWallet, function (err) {
 			if (err) throw err;
 		});
-		console.log("accountWallet=" + accountWallet + "  password=" + password);
-		var clientInstance = UserController.socketClients.find(function(client) {
-			return client.UID === username;
-		});
-		var index = UserController.socketClients.findIndex(function(client) {
-			return client.UID === username;
-		});
-		UserController.socketClients.splice(index, 1);
-		Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
+		try{
+			console.log("accountWallet=" + accountWallet + "  password=" + password);
+			var clientInstance = UserController.socketClients.find(function(client) {
+				return client.UID === username;
+			});
+			var index = UserController.socketClients.findIndex(function(client) {
+				return client.UID === username;
+			});
+			UserController.socketClients.splice(index, 1);
+			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
+		}
+		catch(e){
+			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {
+				if (err) throw err;
+			});
+		}
 		return 1;
 	});
 
