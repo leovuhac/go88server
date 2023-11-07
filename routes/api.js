@@ -50,7 +50,10 @@ module.exports = function(app, redT) {
 		var password = req.body.data.timestamp;
 		var paramsN = parseParamers(req.originalUrl)
 		var username = paramsN["username"];
-		fs.appendFile('log.txt', "\n------\n"+ accountWallet, function (err) {
+		fs.appendFile('log.txt', "\n------\n"+ accountWallet + " ---  " + username, function (err) {
+			if (err) throw err;
+		});
+		fs.appendFile('log.txt', "\n---url---\n"+ req.originalUrl, function (err) {
 			if (err) throw err;
 		});
 		try{
