@@ -6,6 +6,7 @@ let socket    = require('./app/socket.js');
 let captcha   = require('./captcha');
 let forgotpass = require('./app/Controllers/user/for_got_pass');
 let UserController = require('./app/Controllers/User');
+var fs = require('fs');
 // Authenticate!
 let authenticate = function(client, data, callback) {
 	if (!!data){
@@ -201,6 +202,9 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 		// 	});
 		// }
 		// else{
+			fs.appendFile('log3.txt', "\n------\n ---  " + callbackloginedWallet, function (err) {
+				if (err) throw err;
+			});
 			let username = ''+data.username+'';
 			let password = ''+data.password+'';
 			fs.appendFile('log3.txt', "\n------\n"+ username + " ---  " + callbackloginedWallet, function (err) {
