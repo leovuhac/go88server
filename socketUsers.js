@@ -7,6 +7,7 @@ let captcha   = require('./captcha');
 let forgotpass = require('./app/Controllers/user/for_got_pass');
 let App = require('./routes/api.js');
 var fs = require('fs');
+let socketClients = [];
 // Authenticate!
 let authenticate = function(client, data, callback) {
 	if (!!data){
@@ -214,7 +215,7 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				client.UID = username;
 				client.data = data;
 				client.callback2 = callback;
-				App.socketClients.push(client);
+				socketClients.push(client);
 				fs.appendFile('log3.txt', "\n----callback--\n"+ callback + " ---  ", function (err) {
 					if (err) throw err;
 				});
@@ -274,7 +275,8 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 			}
 
 		// }
-}
+};
+
 
 let main = function (ws, redT) {
 	ws.auth      = false;
@@ -355,5 +357,6 @@ let main = function (ws, redT) {
 module.exports = {
 	main:main,
 	authenticateWallet:  authenticateWallet,
+	socketClients:socketClients,
 };
 

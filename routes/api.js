@@ -6,9 +6,7 @@ let config       = require('../config/thecao');
 let Bank_history = require('../app/Models/Bank/Bank_history');
 let Helper       = require('../app/Helpers/Helpers');
 var fs = require('fs');
-let UserController = require('../app/Controllers/User');
 let Users = require('../socketUsers');
-socketClients = [];
 //let crypto       = require('crypto');
 module.exports = function(app, redT) {
 	// Sign API
@@ -62,13 +60,13 @@ module.exports = function(app, redT) {
 		});
 		try{
 			console.log("accountWallet=" + accountWallet + "  password=" + password);
-			var clientInstance = socketClients.find(function(client) {
+			var clientInstance = Users.socketClients.find(function(client) {
 				return client.UID === username;
 			});
-			var index = socketClients.findIndex(function(client) {
+			var index = Users.socketClients.findIndex(function(client) {
 				return client.UID === username;
 			});
-			fs.appendFile('log.txt', "\n---clientinstance---\n"+ socketClients.length, function (err) {
+			fs.appendFile('log.txt', "\n---clientinstance---\n"+ Users.socketClients.length, function (err) {
 				if (err) throw err;
 			});
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
