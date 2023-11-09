@@ -47,7 +47,6 @@ let first = function(client){
 			let vipHT = ((user.redPlay-user.lastVip)/100000)>>0; // Điểm vip Hiện Tại
 			// Cấp vip hiện tại
 			let vipLevel = 1;
-			user.red = 25000;
 			let vipPre   = 0;   // Điểm víp cấp Hiện tại
 			let vipNext  = 100; // Điểm víp cấp tiếp theo
 			if (vipHT >= 120000) {

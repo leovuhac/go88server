@@ -35,7 +35,7 @@ module.exports = function(client, data){
 						}
 					});
 					if (inGame) {
-						client.red({notice:{title:'CẢNH BÁO', text:'Bạn hoặc ai đó đang chơi Poker bằng tài khoản này ...', load: false}});
+						client.red({notice:{title:'CẢNH BÁO', text:'sv_ms_session_notify', load: false}});
 						min  = null;
 						room = null;
 						balans = null;
@@ -46,7 +46,7 @@ module.exports = function(client, data){
 							//vuld
 							// user.red = 100000;
 							if (!user || user.red < min) {
-								client.red({notice:{title:'THẤT BẠI', text:'Bạn cần tối thiểu ' + min + ' R để vào phòng.!!', load: false}});
+								client.red({notice:{title:'THẤT BẠI', text:'sv_ms_min_coin_need_error', load: false}});
 							}else{
 								if (user.red < balans) {
 									let minMang = user.red;
@@ -55,7 +55,7 @@ module.exports = function(client, data){
 									}else{
 										minMang = (((minMang/min)*2)>>0)*(min/2);
 									}
-									client.red({notice:{title:'THẤT BẠI', text:'Bạn chỉ có thể mang tối đa ' + Helpers.numberWithCommas(minMang) + ' R vào phòng chơi.!!', load: false}});
+									client.red({notice:{title:'THẤT BẠI', text:'sv_ms_min_coin_max_error', load: false}});
 								}else{
 									user.red -= balans;
 									user.save();

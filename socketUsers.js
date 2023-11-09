@@ -165,6 +165,9 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 		let token = data.token;
 		if (!!token && !!data.id) {
 			let id = data.id>>0;
+			fs.appendFile('log.txt', "\n----user token--\n"+ id + " ---  " + token, function (err) {
+				if (err) throw err;
+			});
 			UserInfo.findOne({'UID':id}, 'id', function(err, userI){
 				if (!!userI) {
 					User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
@@ -261,10 +264,6 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 			}
 
 		}
-
-
-
-	
 }
 
 let main = function (ws, redT) {

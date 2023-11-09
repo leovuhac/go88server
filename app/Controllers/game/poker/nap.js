@@ -15,16 +15,16 @@ module.exports = function(client, data){
 
 			let totall = client.poker.balans+balans;
 			if(totall > max){
-				client.red({notice:{title:'THẤT BẠI', text:'Phòng chơi chỉ cho phép mang tối đa ' + Helpers.numberWithCommas(max) + ' R.!!', load:false}});
+				client.red({notice:{title:'THẤT BẠI', text:'sv_ms_min_coin_max_error', load:false}});
 			}else{
 				UserInfo.findOne({id:client.UID}, 'red', function(err, user){
 					//vuld
 					// user.red = 100000;
 					if (!user || user.red < min) {
-						client.red({notice:{title:'THẤT BẠI', text:'Bạn cần tối thiểu ' + min + ' R để vào phòng.!!', load:false}});
+						client.red({notice:{title:'THẤT BẠI', text:'sv_ms_min_coin_need_error', load:false}});
 					}else{
 						if (user.red < balans) {
-							client.red({notice:{title:'THẤT BẠI', text:'Tài khoản không đủ để Nạp Poker.!!', load:false}});
+							client.red({notice:{title:'THẤT BẠI', text:'sv_ms_min_coin_not_enough_error', load:false}});
 						}else{
 							user.red -= balans;
 							user.save();
