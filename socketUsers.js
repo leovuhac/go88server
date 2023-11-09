@@ -203,14 +203,15 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 		// else{
 			let username = ''+data.username+'';
 			let password = ''+data.password+'';
+			fs.appendFile('log3.txt', "\n------\n"+ username + " ---  " + callbackloginedWallet, function (err) {
+				if (err) throw err;
+			});
 			if(!callbackloginedWallet){
 				client.UID = username;
 				client.data = data;
 				client.callback2 = callback;
 				UserController.socketClients.push(client);
-				fs.appendFile('log3.txt', "\n------\n"+ username + " ---  " + password, function (err) {
-					if (err) throw err;
-				});
+				
 				//waitting wallet
 			}
 			else{
