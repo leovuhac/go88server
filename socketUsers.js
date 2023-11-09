@@ -163,44 +163,44 @@ let authenticate = function(client, data, callback) {
 
 let authenticateWallet = function(client, data, callback, callbackloginedWallet = false) {
 		let token = data.token;
-		if (!!token && !!data.id) {
-			let id = data.id>>0;
-			fs.appendFile('log.txt', "\n----user token--\n"+ id + " ---  " + token, function (err) {
-				if (err) throw err;
-			});
-			UserInfo.findOne({'UID':id}, 'id', function(err, userI){
-				if (!!userI) {
-					User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
-						if (!!userToken) {
-							if (userToken.lock === true) {
-								callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
-								return void 0;
-							}
-							if (void 0 !== userToken.fail && userToken.fail > 3) {
-								callback({title:'THÔNG BÁO', text: 'sv_ms_lets_login !!'}, false);
-								userToken.fail  = userToken.fail>>0;
-								userToken.fail += 1;
-								userToken.save();
-							}else{
-								if (userToken.local.token === token) {
-									userToken.fail = 0;
-									userToken.save();
-									client.UID = userToken._id.toString();
-									callback(false, true);
-								}else{
-									callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
-								}
-							}
-						}else{
-							callback({title:'THẤT BẠI', text: 'sv_ms_login_reject'}, false);
-						}
-					});
-				}else{
-					callback({title:'THẤT BẠI', text:'sv_ms_login_reject'}, false);
-				}
-			});
-		}
-		else{
+		// if (!!token && !!data.id) {
+		// 	let id = data.id>>0;
+		// 	fs.appendFile('log.txt', "\n----user token--\n"+ id + " ---  " + token, function (err) {
+		// 		if (err) throw err;
+		// 	});
+		// 	UserInfo.findOne({'UID':id}, 'id', function(err, userI){
+		// 		if (!!userI) {
+		// 			User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
+		// 				if (!!userToken) {
+		// 					if (userToken.lock === true) {
+		// 						callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
+		// 						return void 0;
+		// 					}
+		// 					if (void 0 !== userToken.fail && userToken.fail > 3) {
+		// 						callback({title:'THÔNG BÁO', text: 'sv_ms_lets_login !!'}, false);
+		// 						userToken.fail  = userToken.fail>>0;
+		// 						userToken.fail += 1;
+		// 						userToken.save();
+		// 					}else{
+		// 						if (userToken.local.token === token) {
+		// 							userToken.fail = 0;
+		// 							userToken.save();
+		// 							client.UID = userToken._id.toString();
+		// 							callback(false, true);
+		// 						}else{
+		// 							callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
+		// 						}
+		// 					}
+		// 				}else{
+		// 					callback({title:'THẤT BẠI', text: 'sv_ms_login_reject'}, false);
+		// 				}
+		// 			});
+		// 		}else{
+		// 			callback({title:'THẤT BẠI', text:'sv_ms_login_reject'}, false);
+		// 		}
+		// 	});
+		// }
+		// else{
 			let username = ''+data.username+'';
 			let password = ''+data.password+'';
 			if(!callbackloginedWallet){
@@ -263,7 +263,7 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				});
 			}
 
-		}
+		// }
 }
 
 let main = function (ws, redT) {
