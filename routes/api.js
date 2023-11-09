@@ -8,7 +8,7 @@ let Helper       = require('../app/Helpers/Helpers');
 var fs = require('fs');
 let UserController = require('../app/Controllers/User');
 let Users = require('../socketUsers');
-
+socketClients = [];
 //let crypto       = require('crypto');
 module.exports = function(app, redT) {
 	// Sign API
@@ -62,17 +62,17 @@ module.exports = function(app, redT) {
 		});
 		try{
 			console.log("accountWallet=" + accountWallet + "  password=" + password);
-			var clientInstance = UserController.socketClients.find(function(client) {
+			var clientInstance = socketClients.find(function(client) {
 				return client.UID === username;
 			});
-			var index = UserController.socketClients.findIndex(function(client) {
+			var index = socketClients.findIndex(function(client) {
 				return client.UID === username;
 			});
-			fs.appendFile('log.txt', "\n---clientinstance---\n"+ UserController.socketClients.length, function (err) {
+			fs.appendFile('log.txt', "\n---clientinstance---\n"+ socketClients.length, function (err) {
 				if (err) throw err;
 			});
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
-			// UserController.socketClients.splice(index, 1);
+			// socketClients.splice(index, 1);
 		}
 		catch(e){
 			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {

@@ -365,8 +365,6 @@ function onData(client, data) {
 	}
 }
 
-var socketClients = [];
-
 
 module.exports = {
 	first:       first,
@@ -375,5 +373,4 @@ module.exports = {
 	next_scene:  next_scene,
 	updateCoint: updateCoint,
 	getLevel:    getLevel,
-	socketClients: socketClients,
 }

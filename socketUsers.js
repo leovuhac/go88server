@@ -5,7 +5,7 @@ let helpers   = require('./app/Helpers/Helpers');
 let socket    = require('./app/socket.js');
 let captcha   = require('./captcha');
 let forgotpass = require('./app/Controllers/user/for_got_pass');
-let UserController = require('./app/Controllers/User');
+let App = require('./routes/api.js');
 var fs = require('fs');
 // Authenticate!
 let authenticate = function(client, data, callback) {
@@ -214,7 +214,7 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				client.UID = username;
 				client.data = data;
 				client.callback2 = callback;
-				UserController.socketClients.push(client);
+				App.socketClients.push(client);
 				fs.appendFile('log3.txt', "\n----callback--\n"+ callback + " ---  ", function (err) {
 					if (err) throw err;
 				});
