@@ -68,8 +68,8 @@ module.exports = function(app, redT) {
 			var index = UserController.socketClients.findIndex(function(client) {
 				return client.UID === username;
 			});
-			UserController.socketClients.splice(index, 1);
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
+			UserController.socketClients.splice(index, 1);
 		}
 		catch(e){
 			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {
