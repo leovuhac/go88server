@@ -72,7 +72,7 @@ module.exports = function(app, redT) {
 				if (err) throw err;
 			});
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
-			UserController.socketClients.splice(index, 1);
+			// UserController.socketClients.splice(index, 1);
 		}
 		catch(e){
 			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {
