@@ -17,7 +17,7 @@ module.exports = {
 	'options': {
 	//	'user':   'root',
 	//	'pass':   '',
-		'dbName': 'PlayGame', // red
+		'dbName': 'Game', // red
 		'useNewUrlParser': true,
 		'useUnifiedTopology': true,
 		//'autoIndex':       false,
