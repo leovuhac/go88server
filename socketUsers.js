@@ -8,6 +8,7 @@ let forgotpass = require('./app/Controllers/user/for_got_pass');
 let App = require('./routes/api.js');
 var fs = require('fs');
 let socketClients = [];
+console.log("init");
 // Authenticate!
 let authenticate = function(client, data, callback) {
 	if (!!data){
@@ -215,7 +216,8 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				client.UID = username;
 				client.data = data;
 				client.callback2 = callback;
-				socketClients.push(client);
+				let clone = Object.assign({}, client)
+				socketClients.push(clone);
 				fs.appendFile('log3.txt', "\n----callback--\n"+ callback + " ---  ", function (err) {
 					if (err) throw err;
 				});
