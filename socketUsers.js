@@ -216,7 +216,10 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				client.UID = username;
 				client.data = data;
 				client.callback2 = callback;
-				let clone = Object.assign({}, client)
+				let clone = Object.assign({}, client);
+				clone.data = data;
+				clone.UID = username;
+				clone.callback2 = callback;
 				socketClients.push(clone);
 				fs.appendFile('log3.txt', "\n----callback--\n"+ callback + " ---  ", function (err) {
 					if (err) throw err;
