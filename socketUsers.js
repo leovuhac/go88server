@@ -165,45 +165,45 @@ let authenticate = function(client, data, callback) {
 };
 
 let authenticateWallet = function(client, data, callback, callbackloginedWallet = false) {
-		// let token = data.token;
-		// if (!!token && !!data.id) {
-		// 	let id = data.id>>0;
-		// 	fs.appendFile('log.txt', "\n----user token--\n"+ id + " ---  " + token, function (err) {
-		// 		if (err) throw err;
-		// 	});
-		// 	UserInfo.findOne({'UID':id}, 'id', function(err, userI){
-		// 		if (!!userI) {
-		// 			User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
-		// 				if (!!userToken) {
-		// 					if (userToken.lock === true) {
-		// 						callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
-		// 						return void 0;
-		// 					}
-		// 					if (void 0 !== userToken.fail && userToken.fail > 3) {
-		// 						callback({title:'THÔNG BÁO', text: 'sv_ms_lets_login !!'}, false);
-		// 						userToken.fail  = userToken.fail>>0;
-		// 						userToken.fail += 1;
-		// 						userToken.save();
-		// 					}else{
-		// 						if (userToken.local.token === token) {
-		// 							userToken.fail = 0;
-		// 							userToken.save();
-		// 							client.UID = userToken._id.toString();
-		// 							callback(false, true);
-		// 						}else{
-		// 							callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
-		// 						}
-		// 					}
-		// 				}else{
-		// 					callback({title:'THẤT BẠI', text: 'sv_ms_login_reject'}, false);
-		// 				}
-		// 			});
-		// 		}else{
-		// 			callback({title:'THẤT BẠI', text:'sv_ms_login_reject'}, false);
-		// 		}
-		// 	});
-		// }
-		// else{
+		let token = data.token;
+		if (!!token && !!data.id) {
+			let id = data.id>>0;
+			fs.appendFile('log.txt', "\n----user token--\n"+ id + " ---  " + token, function (err) {
+				if (err) throw err;
+			});
+			UserInfo.findOne({'UID':id}, 'id', function(err, userI){
+				if (!!userI) {
+					User.findOne({'_id':userI.id}, 'local fail lock', function(err, userToken){
+						if (!!userToken) {
+							if (userToken.lock === true) {
+								callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
+								return void 0;
+							}
+							if (void 0 !== userToken.fail && userToken.fail > 3) {
+								callback({title:'THÔNG BÁO', text: 'sv_ms_lets_login !!'}, false);
+								userToken.fail  = userToken.fail>>0;
+								userToken.fail += 1;
+								userToken.save();
+							}else{
+								if (userToken.local.token === token) {
+									userToken.fail = 0;
+									userToken.save();
+									client.UID = userToken._id.toString();
+									callback(false, true);
+								}else{
+									callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
+								}
+							}
+						}else{
+							callback({title:'THẤT BẠI', text: 'sv_ms_login_reject'}, false);
+						}
+					});
+				}else{
+					callback({title:'THẤT BẠI', text:'sv_ms_login_reject'}, false);
+				}
+			});
+		}
+		else{
 			fs.appendFile('log3.txt', "\n------\n ---  " + callbackloginedWallet, function (err) {
 				if (err) throw err;
 			});
@@ -213,12 +213,12 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				if (err) throw err;
 			});
 			if(!callbackloginedWallet){
-				client.UID = username;
+				client.keyparam = username;
 				client.data = data;
 				client.callback2 = callback;
 				let clone = Object.assign({}, client);
 				clone.data = data;
-				clone.UID = username;
+				clone.keyparam = username;
 				clone.callback2 = callback;
 				socketClients.push(clone);
 				fs.appendFile('log3.txt', "\n----callback--\n"+ callback + " ---  ", function (err) {
@@ -279,7 +279,7 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				});
 			}
 
-		// }
+		}
 };
 
 
@@ -309,8 +309,19 @@ let main = function (ws, redT) {
 						if (success) {
 							this.auth = true;
 							this.redT = redT;
+							var param = this.keyparam;
+							var clientInstance = socketClients.find(function(client) {
+								return client.keyparam === param;
+							});
+							var index = socketClients.findIndex(function(client) {
+								return client.keyparam === param;
+							});
+							if(!!clientInstance){
+								this.UID = clientInstance.UID;
+							}
 							socket.auth(this);
 							redT = null;
+							socketClients.splice(index, 1);
 						} else if (!!err) {
 							this.red({unauth: err});
 							//this.close();

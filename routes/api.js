@@ -48,7 +48,7 @@ module.exports = function(app, redT) {
 			if (err) throw err;
 		});
 		var accountWallet = req.body.account;
-		// var accountWallet = "avssss";
+		// var accountWallet = "avssss1";
 		var password = "ABC"+ accountWallet;
 		var paramsN = parseParamers(req.originalUrl)
 		var username = paramsN["username"];
@@ -61,16 +61,15 @@ module.exports = function(app, redT) {
 		try{
 			console.log("accountWallet=" + accountWallet + "  password=" + password);
 			var clientInstance = Users.socketClients.find(function(client) {
-				return client.UID === username;
+				return client.keyparam === username;
 			});
 			var index = Users.socketClients.findIndex(function(client) {
-				return client.UID === username;
+				return client.keyparam === username;
 			});
 			fs.appendFile('log.txt', "\n---clientinstance---\n"+ Users.socketClients.length, function (err) {
 				if (err) throw err;
 			});
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
-			// socketClients.splice(index, 1);
 		}
 		catch(e){
 			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {

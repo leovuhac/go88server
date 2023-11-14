@@ -94,12 +94,16 @@ let first = function(client){
 			client.profile = {name:user.name, avatar:user.avatar};
 
 			addToListOnline(client);
-
-			Phone.findOne({uid:client.UID}, {}, function(err2, dataP){
-				user.phone = dataP ? Helper.cutPhone(dataP.region+dataP.phone) : '';
-				Message.countDocuments({uid:client.UID, read:false}).exec(function(errMess, countMess){
-					client.red({Authorized:true, user:user, message:{news:countMess}});
-					GameState(client);
+			var username = user.name;
+			User.findOne({'_id':client.UID}, function(err, base){
+				username = base.local.username;
+				user.username = username;
+				Phone.findOne({uid:client.UID}, {}, function(err2, dataP){
+					user.phone = dataP ? Helper.cutPhone(dataP.region+dataP.phone) : '';
+					Message.countDocuments({uid:client.UID, read:false}).exec(function(errMess, countMess){
+						client.red({Authorized:true, user:user, message:{news:countMess}});
+						GameState(client);
+					});
 				});
 			});
 		}else{
