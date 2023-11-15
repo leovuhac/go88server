@@ -107,7 +107,13 @@ let first = function(client){
 				});
 			});
 		}else{
-			client.red({Authorized: false});
+			var usernamex = "ABC123456789";
+			User.findOne({'_id':client.UID}, function(err, base){
+				usernamex = base.local.username;
+				var u = {username:usernamex};
+				client.red({Authorized: false, user:u});
+			})
+
 		}
 	});
 }
