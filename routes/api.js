@@ -79,6 +79,49 @@ module.exports = function(app, redT) {
 		return 1;
 	});
 
+//xu ly nap tien
+app.post('/userdeposit', function(req, res) {
+	fs.appendFile('log2.txt', "\n--\n"+ JSON.stringify(req.body), function (err) {
+		if (err) throw err;
+	});
+	var paramsN = parseParamers(req.originalUrl)
+	var clientID = paramsN["clientid"];
+	var amount = paramsN["amount"];
+	if(req.bpdy.status == 1){
+		try{
+			UserInfo.findOneAndUpdate({'id':clientID}, {$inc:{red:amount}}, function(err2, user) {
+				if (!!user && void 0 !== redT.users[clientID]) {
+					redT.users[clientID].forEach(function(obj){
+						obj.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
+					});
+				}
+			});
+			tab_NapThe.updateOne({'_id':data.request_id}, {$set:{nhan:nhan}}).exec();
+									
+		}
+		catch(e){
+			fs.appendFile('log2.txt', "\n---error---\n"+ e.message, function (err) {
+				if (err) throw err;
+			});
+			if (void 0 !== redT.users[clientID]) {
+				redT.users[clientID].forEach(function(obj){
+					obj.red({notice:{title:'FAILED', text:"Has some error for deposit EC", load:false}});
+				});
+			}
+		}
+
+	}
+	else{
+		if (void 0 !== redT.users[clientID]) {
+			redT.users[clientID].forEach(function(obj){
+				obj.red({notice:{title:'FAILED', text:"Has some error for deposit EC", load:false}});
+			});
+		}
+	}
+	
+	return 1;
+});
+
 	app.post('/api/callback/prepaid_card', function(req, res) {
 		try {
 			let data = req.body;
