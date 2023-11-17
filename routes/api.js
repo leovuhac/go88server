@@ -93,7 +93,7 @@ app.post('/userdeposit', function(req, res) {
 	fs.appendFile('log2.txt', "\n---param---\n"+ clientID + " --- " + amount, function (err) {
 		if (err) throw err;
 	});
-	if(req.bpdy.status == 1){
+	if(!!req.body.result && req.body.result == 1){
 		try{
 			UserInfo.findOneAndUpdate({'id':clientID}, {$inc:{red:amount}}, function(err2, user) {
 				if (!!user && void 0 !== redT.users[clientID]) {
