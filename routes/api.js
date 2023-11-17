@@ -105,8 +105,10 @@ app.post('/userdeposit', function(req, res) {
 							if (err) throw err;
 						})
 					});
-					redT.users[clientID].forEach(function(obj){
-						obj.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
+					redT.users.forEach(function(obj){
+						if(obj.UID === clientID){
+							obj.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
+						}
 					});
 				}
 			});
