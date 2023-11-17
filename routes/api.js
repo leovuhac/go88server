@@ -95,13 +95,15 @@ app.post('/userdeposit', function(req, res) {
 	});
 	if(!!req.body.result && req.body.result == 1){
 		try{
-			UserInfo.findOneAndUpdate({id:clientID}, {$inc:{red:amount}}, function(err2, user) {
-				fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount, function (err) {
+			UserInfo.findOneAndUpdate({'id':clientID}, {$inc:{red:amount}}, function(err2, user) {
+				fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount + " -- " + redT.users.length, function (err) {
 					if (err) throw err;
 				});
 				if (!!user && void 0 !== redT.users[clientID]) {
-					fs.appendFile('log2.txt', "\n---found user---\n"+ clientID + " --- " + amount, function (err) {
-						if (err) throw err;
+					redT.users.forEach(element => {
+						fs.appendFile('log2.txt', "\n---user---\n"+ element.UID + " --- ", function (err) {
+							if (err) throw err;
+						})
 					});
 					redT.users[clientID].forEach(function(obj){
 						obj.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
