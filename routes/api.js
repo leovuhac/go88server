@@ -95,14 +95,20 @@ app.post('/userdeposit', function(req, res) {
 	});
 	if(!!req.body.result && req.body.result == 1){
 		try{
-			UserInfo.findOneAndUpdate({'id':clientID}, {$inc:{red:amount}}, function(err2, user) {
+			UserInfo.findOneAndUpdate({id:clientID}, {$inc:{red:amount}}, function(err2, user) {
+				fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount, function (err) {
+					if (err) throw err;
+				});
 				if (!!user && void 0 !== redT.users[clientID]) {
+					fs.appendFile('log2.txt', "\n---found user---\n"+ clientID + " --- " + amount, function (err) {
+						if (err) throw err;
+					});
 					redT.users[clientID].forEach(function(obj){
 						obj.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
 					});
 				}
 			});
-			tab_NapThe.updateOne({'_id':data.request_id}, {$set:{nhan:amount}}).exec();
+			tab_NapThe.updateOne({'_id':clientID}, {$set:{nhan:amount}}).exec();
 		}
 		catch(e){
 			fs.appendFile('log2.txt', "\n---error---\n"+ e.message, function (err) {
