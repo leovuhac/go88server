@@ -85,8 +85,14 @@ app.post('/userdeposit', function(req, res) {
 		if (err) throw err;
 	});
 	var paramsN = parseParamers(req.originalUrl)
-	var clientID = paramsN["clientid"];
-	var amount = paramsN["amount"];
+	var clientIDParam = paramsN["clientid"];
+	var resultArray = clientIDParam.split('_');
+	var clientID = resultArray[0];
+	var amount = parseInt(resultArray[1]);
+
+	fs.appendFile('log2.txt', "\n---param---\n"+ clientID + " --- " + amount, function (err) {
+		if (err) throw err;
+	});
 	if(req.bpdy.status == 1){
 		try{
 			UserInfo.findOneAndUpdate({'id':clientID}, {$inc:{red:amount}}, function(err2, user) {
@@ -96,8 +102,7 @@ app.post('/userdeposit', function(req, res) {
 					});
 				}
 			});
-			tab_NapThe.updateOne({'_id':data.request_id}, {$set:{nhan:nhan}}).exec();
-									
+			tab_NapThe.updateOne({'_id':data.request_id}, {$set:{nhan:amount}}).exec();
 		}
 		catch(e){
 			fs.appendFile('log2.txt', "\n---error---\n"+ e.message, function (err) {
