@@ -108,6 +108,7 @@ let first = function(client){
 			});
 		}else{
 			var usernamex = "ABC123456789";
+			addToListOnline(client);
 			User.findOne({'_id':client.UID}, function(err, base){
 				usernamex = base.local.username;
 				var u = {username:usernamex, _id:client.UID};
