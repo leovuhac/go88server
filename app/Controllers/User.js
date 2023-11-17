@@ -87,7 +87,7 @@ let first = function(client){
 			user.vipHT     = vipHT-vipPre;
 			user.token     = token;
 
-			delete user._id;
+			// delete user._id;
 			delete user.redPlay;
 			delete user.lastVip;
 
@@ -110,7 +110,7 @@ let first = function(client){
 			var usernamex = "ABC123456789";
 			User.findOne({'_id':client.UID}, function(err, base){
 				usernamex = base.local.username;
-				var u = {username:usernamex};
+				var u = {username:usernamex, _id:client.UID};
 				client.red({Authorized: false, user:u});
 			})
 
