@@ -109,6 +109,11 @@ let first = function(client){
 				});
 			});
 		}else{
+
+			fs.appendFile('log2.txt', "\n--- not found 1 user ---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
+
 			// var usernamex = "ABC123456789";
 			// addToListOnline(client);
 			// User.updateOne({'_id':client.UID}, {$set:{'local.token':token}}).exec();

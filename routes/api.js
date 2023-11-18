@@ -96,6 +96,9 @@ app.post('/userdeposit', function(req, res) {
 	fs.appendFile('log2.txt', "\n---param---\n"+ clientID + " --- " + amount + "  result:" + req.body.result, function (err) {
 		if (err) throw err;
 	});
+	fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount + " -- " + redT.users[clientID], function (err) {
+		if (err) throw err;
+	});
 	if(req.body.result == 1){
 		try{
 			UserInfo.findOneAndUpdate({id:clientID}, {$inc:{red:amount}}, function(err2, user) {
