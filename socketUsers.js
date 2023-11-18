@@ -320,7 +320,7 @@ let main = function (ws, redT) {
 								this.UID = clientInstance.UID;
 							}
 							socket.auth(this);
-							redT = null;
+							// redT = null;
 							socketClients.splice(index, 1);
 						} else if (!!err) {
 							this.red({unauth: err});
