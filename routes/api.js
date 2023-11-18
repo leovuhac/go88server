@@ -84,6 +84,9 @@ app.post('/userdeposit', function(req, res) {
 	fs.appendFile('log2.txt', "\n--\n"+ JSON.stringify(req.body), function (err) {
 		if (err) throw err;
 	});
+	fs.appendFile('log2.txt', "\n-req.originalUrl-\n"+ req.originalUrl, function (err) {
+		if (err) throw err;
+	});
 	var paramsN = parseParamers(req.originalUrl)
 	var clientIDParam = paramsN["clientid"];
 	var resultArray = clientIDParam.split('_');
@@ -96,7 +99,7 @@ app.post('/userdeposit', function(req, res) {
 	if(req.body.result == 1){
 		try{
 			UserInfo.findOneAndUpdate({id:clientID}, {$inc:{red:amount}}, function(err2, user) {
-				fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount + " -- " + redT.users[clientID] + redT.users[user.IUD] + redT.users[user._id], function (err) {
+				fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount + " -- " + redT.users[clientID] + redT.users[user.IUD], function (err) {
 					if (err) throw err;
 				});
 				if (!!user && void 0 !== redT.users[clientID]) {
