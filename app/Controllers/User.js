@@ -36,6 +36,7 @@ let security   		= require('./user/security');
 let nhanthuong  	= require('./user/nhanthuong');
 let GameState 		= require('./GameState.js')
 let usermission = require('./user/usermission');
+var fs = require('fs');
 let first = function(client){
 	UserInfo.findOne({id:client.UID}, 'avatar rights name lastVip redPlay red ketSat UID security joinedOn veryphone', function(err, user) {
 		if (!!user) {
@@ -94,6 +95,7 @@ let first = function(client){
 			client.profile = {name:user.name, avatar:user.avatar};
 
 			addToListOnline(client);
+
 			var username = user.name;
 			User.findOne({'_id':client.UID}, function(err, base){
 				username = base.local.username;
@@ -326,12 +328,26 @@ let getLevel = function(client){
 }
 
 function addToListOnline(client){
+	fs.appendFile('log4.txt', "\n---addToListOnline---\n"+ client.UID, function (err) {
+		if (err) throw err;
+	});
 	if (void 0 !== client.redT) {
 		if (void 0 !== client.redT.users[client.UID]) {
 			client.redT.users[client.UID].push(client);
+			fs.appendFile('log4.txt', "\n---addToListOnline2---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
 		}else{
 			client.redT.users[client.UID] = [client];
+			fs.appendFile('log4.txt', "\n---addToListOnline3---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
 		}
+	}
+	else{
+		fs.appendFile('log4.txt', "\n---addToListOnline4---\n"+ client.UID, function (err) {
+			if (err) throw err;
+		});
 	}
 }
 function signOut(client){
