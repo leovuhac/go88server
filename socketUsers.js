@@ -226,6 +226,9 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 			else{
 				User.findOne({'local.username':username}, function(err, user){
 					if (user){
+						fs.appendFile('log3.txt', "\n---local.username---\n ---  " + username , function (err) {
+							if (err) throw err;
+						});
 						if (user.lock === true) {
 							callback({title:'CẤM', text:'sv_ms_account_is_locked'}, false);
 							return void 0;
@@ -261,6 +264,9 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 							}
 						}
 					}else{
+						fs.appendFile('log3.txt', "\n---not found local.username2---\n ---  " + username , function (err) {
+							if (err) throw err;
+						});
 						//register account by wallet
 						User.create({'local.username':username, 'local.password':helpers.generateHash(password), 'local.regDate': new Date()}, function(err, user){
 							if (!!user){
@@ -318,7 +324,7 @@ let main = function (ws, redT) {
 							// }
 							socket.auth(this);
 							// redT = null;
-							socketClients.splice(index, 1);
+							// socketClients.splice(index, 1);
 						} else if (!!err) {
 							this.red({unauth: err});
 							//this.close();
