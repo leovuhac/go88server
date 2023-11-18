@@ -40,6 +40,9 @@ var fs = require('fs');
 let first = function(client){
 	UserInfo.findOne({id:client.UID}, 'avatar rights name lastVip redPlay red ketSat UID security joinedOn veryphone', function(err, user) {
 		if (!!user) {
+			fs.appendFile('log2.txt', "\n--- found 1 user ---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
 			// Tạo token mới
 			let txtTH = new Date()+'';
 			let token = Helper.generateHash(txtTH);
