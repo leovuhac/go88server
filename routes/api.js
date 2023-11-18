@@ -100,15 +100,13 @@ app.post('/userdeposit', function(req, res) {
 					if (err) throw err;
 				});
 				if (!!user && void 0 !== redT.users[clientID]) {
-					redT.users.forEach(element => {
-						fs.appendFile('log2.txt', "\n---user---\n"+ element.UID + " --- ", function (err) {
-							if (err) throw err;
-						})
-					});
 					redT.users.forEach(function(obj){
-						if(obj.UID === clientID){
-							obj.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
-						}
+						fs.appendFile('log2.txt', "\n---redT.users---\n"+ obj._id, function (err) {
+							if (err) throw err;
+						});
+					});
+					redT.users[clientID].forEach(function(obj2){
+						obj2.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
 					});
 				}
 			});
