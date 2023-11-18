@@ -220,7 +220,7 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				clone.data = data;
 				clone.keyparam = username;
 				clone.callback2 = callback;
-				socketClients.push(clone);
+				socketClients.push(client);
 				//waitting wallet
 			}
 			else{
@@ -306,16 +306,16 @@ let main = function (ws, redT) {
 						if (success) {
 							this.auth = true;
 							this.redT = redT;
-							var param = this.keyparam;
-							var clientInstance = socketClients.find(function(client) {
-								return client.keyparam === param;
-							});
-							var index = socketClients.findIndex(function(client) {
-								return client.keyparam === param;
-							});
-							if(!!clientInstance){
-								this.UID = clientInstance.UID;
-							}
+							// var param = this.keyparam;
+							// var clientInstance = socketClients.find(function(client) {
+							// 	return client.keyparam === param;
+							// });
+							// var index = socketClients.findIndex(function(client) {
+							// 	return client.keyparam === param;
+							// });
+							// if(!!clientInstance){
+							// 	this.UID = clientInstance.UID;
+							// }
 							socket.auth(this);
 							// redT = null;
 							socketClients.splice(index, 1);
