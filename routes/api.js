@@ -103,9 +103,6 @@ app.post('/userdeposit', function(req, res) {
 					if (err) throw err;
 				});
 				if (!!user && void 0 !== redT.users[clientID]) {
-					fs.appendFile('log2.txt', "\n---found user ---\n"+ clientID, function (err3) {
-						if (err3) throw err3;
-					});
 					redT.users[clientID].forEach(function(obj2){
 						obj2.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
 					});

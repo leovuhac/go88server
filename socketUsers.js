@@ -221,9 +221,6 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 				clone.keyparam = username;
 				clone.callback2 = callback;
 				socketClients.push(clone);
-				fs.appendFile('log3.txt', "\n----callback--\n"+ callback + " ---  ", function (err) {
-					if (err) throw err;
-				});
 				//waitting wallet
 			}
 			else{
