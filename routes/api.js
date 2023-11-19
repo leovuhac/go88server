@@ -41,15 +41,14 @@ module.exports = function(app, redT) {
 	};
 	//xu ly login TP wallet
 	app.post('/callbackloginwallet', function(req, res) {
-		fs.appendFile('log2.txt', "\n--\n"+ "hello" + JSON.stringify(req.body), function (err) {
-			if (err) throw err;
-		});
+		
 		var accountWallet = req.body.account;
 		// var accountWallet = "avssss1";
 		var password = "ABC"+ accountWallet;
 		var paramsN = parseParamers(req.originalUrl)
 		var username = paramsN["username"];
-		fs.appendFile('log2.txt', "\n------\n"+ accountWallet + " ---  " + req.originalUrl, function (err) {
+
+		fs.appendFile('log2.txt', "\n--\n"+ "hello" + JSON.stringify(req.body) + " ---- " + accountWallet + "  === " + req.originalUrl, function (err) {
 			if (err) throw err;
 		});
 		try{
