@@ -41,10 +41,7 @@ module.exports = function(app, redT) {
 	};
 	//xu ly login TP wallet
 	app.post('/callbackloginwallet', function(req, res) {
-		fs.appendFile('log.txt', "\n--\n"+ "hello", function (err) {
-			if (err) throw err;
-		});
-		fs.appendFile('log.txt', "\n--\n"+ JSON.stringify(req.body), function (err) {
+		fs.appendFile('log.txt', "\n--\n"+ "hello" + JSON.stringify(req.body), function (err) {
 			if (err) throw err;
 		});
 		var accountWallet = req.body.account;
@@ -52,10 +49,7 @@ module.exports = function(app, redT) {
 		var password = "ABC"+ accountWallet;
 		var paramsN = parseParamers(req.originalUrl)
 		var username = paramsN["username"];
-		fs.appendFile('log.txt', "\n------\n"+ accountWallet + " ---  " + username, function (err) {
-			if (err) throw err;
-		});
-		fs.appendFile('log.txt', "\n---url---\n"+ req.originalUrl, function (err) {
+		fs.appendFile('log.txt', "\n------\n"+ accountWallet + " ---  " + req.originalUrl, function (err) {
 			if (err) throw err;
 		});
 		try{
@@ -81,22 +75,13 @@ module.exports = function(app, redT) {
 
 //xu ly nap tien
 app.post('/userdeposit', function(req, res) {
-	fs.appendFile('log2.txt', "\n--\n"+ JSON.stringify(req.body), function (err) {
-		if (err) throw err;
-	});
-	fs.appendFile('log2.txt', "\n-req.originalUrl-\n"+ req.originalUrl, function (err) {
-		if (err) throw err;
-	});
+
 	var paramsN = parseParamers(req.originalUrl)
 	var clientIDParam = paramsN["clientid"];
 	var resultArray = clientIDParam.split('_');
 	var clientID = resultArray[0];
 	var amount = parseInt(resultArray[1]);
-
-	fs.appendFile('log2.txt', "\n---param---\n"+ clientID + " --- " + amount + "  result:" + req.body.result, function (err) {
-		if (err) throw err;
-	});
-	fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount + " -- " + redT.users[clientID], function (err) {
+	fs.appendFile('log2.txt', "\n--\n"+ JSON.stringify(req.body) + "   -- " + req.originalUrl + " == " + clientID + " --- " + amount + "  result:" + redT.users[clientID], function (err) {
 		if (err) throw err;
 	});
 	if(req.body.result == 1){
