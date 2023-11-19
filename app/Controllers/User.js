@@ -103,6 +103,7 @@ let first = function(client){
 			User.findOne({'_id':client.UID}, function(err, base){
 				username = base.local.username;
 				user.username = username;
+				user._id = client.UID;
 				Phone.findOne({uid:client.UID}, {}, function(err2, dataP){
 					user.phone = dataP ? Helper.cutPhone(dataP.region+dataP.phone) : '';
 					Message.countDocuments({uid:client.UID, read:false}).exec(function(errMess, countMess){
@@ -180,7 +181,7 @@ let signName = function(client, name){
 												user.vipHT   = 0;
 												user.phone   = '';
 												user.token   = token;
-												delete user._id;
+												// delete user._id;
 												delete user.redWin;
 												delete user.redLost;
 												delete user.redPlay;
@@ -192,6 +193,8 @@ let signName = function(client, name){
 												delete user.gitCode;
 												delete user.gitRed;
 												delete user.veryold;
+												user.username =  base.local.username;
+
 												addToListOnline(client);
 												let data = {
 													Authorized: true,
