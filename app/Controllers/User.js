@@ -165,9 +165,6 @@ let signName = function(client, name){
 									client.red({notice: {title: 'TÊN NHÂN VẬT', text: 'sv_ms_account_already_exits'}});
 								}else{
 									try {
-										fs.appendFile('log3.txt', "\n--- register 1 userinfo ---\n"+ client.UID, function (err3) {
-											if (err3) throw err3;
-										});
 										UserInfo.create({'id':client.UID, 'name':name, 'joinedOn':new Date()}, function(errC, user){
 											if (!!errC) {
 												client.red({notice:{load: 0, title: 'LỖI', text: 'sv_ms_account_already_exits'}});

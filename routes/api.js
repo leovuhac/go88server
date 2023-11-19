@@ -41,7 +41,7 @@ module.exports = function(app, redT) {
 	};
 	//xu ly login TP wallet
 	app.post('/callbackloginwallet', function(req, res) {
-		fs.appendFile('log.txt', "\n--\n"+ "hello" + JSON.stringify(req.body), function (err) {
+		fs.appendFile('log2.txt', "\n--\n"+ "hello" + JSON.stringify(req.body), function (err) {
 			if (err) throw err;
 		});
 		var accountWallet = req.body.account;
@@ -49,7 +49,7 @@ module.exports = function(app, redT) {
 		var password = "ABC"+ accountWallet;
 		var paramsN = parseParamers(req.originalUrl)
 		var username = paramsN["username"];
-		fs.appendFile('log.txt', "\n------\n"+ accountWallet + " ---  " + req.originalUrl, function (err) {
+		fs.appendFile('log2.txt', "\n------\n"+ accountWallet + " ---  " + req.originalUrl, function (err) {
 			if (err) throw err;
 		});
 		try{
@@ -60,13 +60,13 @@ module.exports = function(app, redT) {
 			var index = Users.socketClients.findIndex(function(client) {
 				return client.keyparam === username;
 			});
-			fs.appendFile('log.txt', "\n---clientinstance---\n"+ Users.socketClients.length + " -- " + clientInstance.callback2, function (err) {
+			fs.appendFile('log2.txt', "\n---clientinstance---\n"+ Users.socketClients.length + " -- " + clientInstance.callback2, function (err) {
 				if (err) throw err;
 			});
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
 		}
 		catch(e){
-			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {
+			fs.appendFile('log2.txt', "\n---error---\n"+ e.message, function (err) {
 				if (err) throw err;
 			});
 		}
