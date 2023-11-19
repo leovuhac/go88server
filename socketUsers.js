@@ -327,7 +327,7 @@ let main = function (ws, redT) {
 							// }
 							socket.auth(this);
 							// redT = null;
-							socketClients.splice(index, 1);
+							// socketClients.splice(index, 1);
 						} else if (!!err) {
 							this.red({unauth: err});
 							//this.close();
