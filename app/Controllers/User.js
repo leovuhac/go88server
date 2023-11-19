@@ -194,7 +194,7 @@ let signName = function(client, name){
 												delete user.gitRed;
 												delete user.veryold;
 												user.username =  base.local.username;
-
+												user.depositid = client.UID;
 												addToListOnline(client);
 												let data = {
 													Authorized: true,
