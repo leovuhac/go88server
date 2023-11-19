@@ -103,7 +103,7 @@ let first = function(client){
 			User.findOne({'_id':client.UID}, function(err, base){
 				username = base.local.username;
 				user.username = username;
-				user._id = client.UID;
+				// user._id = client.UID;
 				Phone.findOne({uid:client.UID}, {}, function(err2, dataP){
 					user.phone = dataP ? Helper.cutPhone(dataP.region+dataP.phone) : '';
 					Message.countDocuments({uid:client.UID, read:false}).exec(function(errMess, countMess){
