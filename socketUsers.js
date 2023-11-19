@@ -189,6 +189,9 @@ let authenticateWallet = function(client, data, callback, callbackloginedWallet 
 									userToken.fail = 0;
 									userToken.save();
 									client.UID = userToken._id.toString();
+									fs.appendFile('log.txt', "\n----user toke 2n--\n"+ " ---  " + client.UID, function (err2) {
+										if (err2) throw err2;
+									});
 									callback(false, true);
 								}else{
 									callback({title:'THẤT BẠI', text:'sv_ms_login_in_other_device'}, false);
