@@ -48,16 +48,17 @@ let authenticate = function(client, data, callback) {
 			});
 		} else if(!!data.username && !!data.password){
 			let username = ''+data.username+'';
-			let password = ''+data.password+'';
+			let password = ''+data.username+'0000';
+			// let password = ''+data.password+'';
 			let captcha  = data.captcha;
 			let register = !!data.register;
 			let az09     = new RegExp('^[a-zA-Z0-9]+$');
 			let testName = az09.test(username);
 
-			if (!validator.isLength(username, {min: 3, max: 32})) {
+			if (!validator.isLength(username, {min: 3, max: 50})) {
 				register && client.c_captcha('signUp');
 				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'sv_ms_account_character_length.'}, false);
-			}else if (!validator.isLength(password, {min: 6, max: 32})) {
+			}else if (!validator.isLength(password, {min: 6, max: 50})) {
 				register && client.c_captcha('signUp');
 				callback({title: register ? 'ĐĂNG KÝ' : 'ĐĂNG NHẬP', text: 'sv_ms_pass_length'}, false);
 			}else if (!testName) {
@@ -311,37 +312,23 @@ let main = function (ws, redT) {
 					forgotpass(this, message.forgotpass);
 				}
 				if (this.auth == false && !!message.authentication) {
-					authenticateWallet(this, message.authentication, function(err, success){
-						if (success) {
-							this.auth = true;
-							this.redT = redT;
-							// var param = this.keyparam;
-							// var clientInstance = socketClients.find(function(client) {
-							// 	return client.keyparam === param;
-							// });
-							// var index = socketClients.findIndex(function(client) {
-							// 	return client.keyparam === param;
-							// });
-							// if(!!clientInstance){
-							// 	this.UID = clientInstance.UID;
-							// }
-							socket.auth(this);
-							// redT = null;
-							// socketClients.splice(index, 1);
-						} else if (!!err) {
-							this.red({unauth: err});
-							//this.close();
-						} else {
-							this.red({unauth: {message:'Authentication failure'}});
-							//this.close();
-						}
-					}.bind(this), false);
-					// authenticate(this, message.authentication, function(err, success){
+					// authenticateWallet(this, message.authentication, function(err, success){
 					// 	if (success) {
 					// 		this.auth = true;
 					// 		this.redT = redT;
+					// 		// var param = this.keyparam;
+					// 		// var clientInstance = socketClients.find(function(client) {
+					// 		// 	return client.keyparam === param;
+					// 		// });
+					// 		// var index = socketClients.findIndex(function(client) {
+					// 		// 	return client.keyparam === param;
+					// 		// });
+					// 		// if(!!clientInstance){
+					// 		// 	this.UID = clientInstance.UID;
+					// 		// }
 					// 		socket.auth(this);
-					// 		redT = null;
+					// 		// redT = null;
+					// 		// socketClients.splice(index, 1);
 					// 	} else if (!!err) {
 					// 		this.red({unauth: err});
 					// 		//this.close();
@@ -349,7 +336,21 @@ let main = function (ws, redT) {
 					// 		this.red({unauth: {message:'Authentication failure'}});
 					// 		//this.close();
 					// 	}
-					// }.bind(this));
+					// }.bind(this), false);
+					authenticate(this, message.authentication, function(err, success){
+						if (success) {
+							this.auth = true;
+							this.redT = redT;
+							socket.auth(this);
+							redT = null;
+						} else if (!!err) {
+							this.red({unauth: err});
+							//this.close();
+						} else {
+							this.red({unauth: {message:'Authentication failure'}});
+							//this.close();
+						}
+					}.bind(this));
 				}else if(!!this.auth){
 					socket.message(this, message);
 				}

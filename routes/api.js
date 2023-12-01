@@ -72,23 +72,16 @@ module.exports = function(app, redT) {
 		return 1;
 	});
 
-//xu ly nap tien
-app.post('/userdeposit', function(req, res) {
-
-	var paramsN = parseParamers(req.originalUrl)
-	var clientIDParam = paramsN["clientid"];
-	var resultArray = clientIDParam.split('_');
-	var clientID = resultArray[0];
-	var amount = parseInt(resultArray[1]);
-	fs.appendFile('log2.txt', "\n--\n"+ JSON.stringify(req.body) + "   -- " + req.originalUrl + " == " + clientID + " --- " + amount + "  result:" + redT.users[clientID], function (err) {
-		if (err) throw err;
-	});
-	if(req.body.result == 1){
+	//xu ly nap tien
+	app.post('/userdeposit', function(req, res) {
+		var paramsN = parseParamers(req.originalUrl)
+		var clientIDParam = paramsN["clientid"];
+		var resultArray = clientIDParam.split('_');
+		var clientID = resultArray[0];
+		var amount = parseInt(resultArray[1]);
 		try{
 			UserInfo.findOneAndUpdate({id:clientID}, {$inc:{red:amount}}, function(err2, user) {
-				fs.appendFile('log2.txt', "\n---found user info---\n"+ clientID + " --- " + amount + " -- " + redT.users[clientID] + redT.users[user.IUD], function (err) {
-					if (err) throw err;
-				});
+
 				if (!!user && void 0 !== redT.users[clientID]) {
 					redT.users[clientID].forEach(function(obj2){
 						obj2.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
@@ -98,27 +91,14 @@ app.post('/userdeposit', function(req, res) {
 			tab_NapThe.updateOne({'_id':clientID}, {$set:{nhan:amount}}).exec();
 		}
 		catch(e){
-			fs.appendFile('log2.txt', "\n---error---\n"+ e.message, function (err) {
-				if (err) throw err;
-			});
 			if (void 0 !== redT.users[clientID]) {
 				redT.users[clientID].forEach(function(obj){
 					obj.red({notice:{title:'FAILED', text:"Has some error for deposit EC", load:false}});
 				});
 			}
 		}
-
-	}
-	else{
-		if (void 0 !== redT.users[clientID]) {
-			redT.users[clientID].forEach(function(obj){
-				obj.red({notice:{title:'FAILED', text:"Has some error for deposit EC", load:false}});
-			});
-		}
-	}
-	
-	return 1;
-});
+		return 1;
+	});
 
 	app.post('/api/callback/prepaid_card', function(req, res) {
 		try {

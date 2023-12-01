@@ -10,10 +10,10 @@ let CaoboiPercent  = require('../app/Models/Caoboi/Caoboi_percent');
 
 Admin.estimatedDocumentCount().exec(function(err, total){
 	if (total == 0) {
-		Admin.create({'username': 'admin', 'password': generateHash('123456'), 'rights': 9, 'regDate': new Date()});
+		Admin.create({'username': 'alan', 'password': generateHash('qwer1234'), 'rights': 9, 'regDate': new Date()});
 	}
 	if (total == 1) {
-		Admin.create({'username': 'kvcpro', 'password': generateHash('123456'), 'rights': 9, 'regDate': new Date()});
+		Admin.create({'username': 'vuld', 'password': generateHash('qwer1234'), 'rights': 9, 'regDate': new Date()});
 	}
 });
 
