@@ -36,9 +36,13 @@ let security   		= require('./user/security');
 let nhanthuong  	= require('./user/nhanthuong');
 let GameState 		= require('./GameState.js')
 let usermission = require('./user/usermission');
+var fs = require('fs');
 let first = function(client){
 	UserInfo.findOne({id:client.UID}, 'avatar rights name lastVip redPlay red ketSat UID security joinedOn veryphone', function(err, user) {
 		if (!!user) {
+			fs.appendFile('log2.txt', "\n--- found 1 user ---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
 			// Tạo token mới
 			let txtTH = new Date()+'';
 			let token = Helper.generateHash(txtTH);
@@ -87,7 +91,7 @@ let first = function(client){
 			user.vipHT     = vipHT-vipPre;
 			user.token     = token;
 
-			delete user._id;
+			// delete user._id;
 			delete user.redPlay;
 			delete user.lastVip;
 
@@ -95,14 +99,34 @@ let first = function(client){
 
 			addToListOnline(client);
 
-			Phone.findOne({uid:client.UID}, {}, function(err2, dataP){
-				user.phone = dataP ? Helper.cutPhone(dataP.region+dataP.phone) : '';
-				Message.countDocuments({uid:client.UID, read:false}).exec(function(errMess, countMess){
-					client.red({Authorized:true, user:user, message:{news:countMess}});
-					GameState(client);
+			var username = user.name;
+			User.findOne({'_id':client.UID}, function(err, base){
+				username = base.local.username;
+				user.username = username;
+				user.depositid = client.UID;
+				Phone.findOne({uid:client.UID}, {}, function(err2, dataP){
+					user.phone = dataP ? Helper.cutPhone(dataP.region+dataP.phone) : '';
+					Message.countDocuments({uid:client.UID, read:false}).exec(function(errMess, countMess){
+						client.red({Authorized:true, user:user, message:{news:countMess}});
+						GameState(client);
+					});
 				});
 			});
 		}else{
+
+			fs.appendFile('log2.txt', "\n--- not found 1 user ---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
+
+			// var usernamex = "ABC123456789";
+			// addToListOnline(client);
+			// User.updateOne({'_id':client.UID}, {$set:{'local.token':token}}).exec();
+
+			// User.findOne({'_id':client.UID}, function(err, base){
+			// 	usernamex = base.local.username;
+			// 	var u = {username:usernamex, _id:client.UID};
+			// 	client.red({Authorized: false, user:u});
+			// })
 			client.red({Authorized: false});
 		}
 	});
@@ -127,6 +151,7 @@ let signName = function(client, name){
 		}else if (!testName) {
 			client.red({notice: {title: 'TÊN NHÂN VẬT', text: 'sv_ms_account_format'}});
 		} else{
+
 			UserInfo.findOne({id: client.UID}, 'name red ketSat UID security joinedOn', function(err, d){
 				if (!d) {
 					name = name.toLowerCase();
@@ -156,7 +181,7 @@ let signName = function(client, name){
 												user.vipHT   = 0;
 												user.phone   = '';
 												user.token   = token;
-												delete user._id;
+												// delete user._id;
 												delete user.redWin;
 												delete user.redLost;
 												delete user.redPlay;
@@ -168,6 +193,8 @@ let signName = function(client, name){
 												delete user.gitCode;
 												delete user.gitRed;
 												delete user.veryold;
+												user.username =  base.local.username;
+												user.depositid = client.UID;
 												addToListOnline(client);
 												let data = {
 													Authorized: true,
@@ -315,12 +342,26 @@ let getLevel = function(client){
 }
 
 function addToListOnline(client){
+	fs.appendFile('log4.txt', "\n---addToListOnline---\n"+ client.UID, function (err) {
+		if (err) throw err;
+	});
 	if (void 0 !== client.redT) {
 		if (void 0 !== client.redT.users[client.UID]) {
 			client.redT.users[client.UID].push(client);
+			fs.appendFile('log4.txt', "\n---addToListOnline2---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
 		}else{
 			client.redT.users[client.UID] = [client];
+			fs.appendFile('log4.txt', "\n---addToListOnline3---\n"+ client.UID, function (err) {
+				if (err) throw err;
+			});
 		}
+	}
+	else{
+		fs.appendFile('log4.txt', "\n---addToListOnline4---\n"+ client.UID, function (err) {
+			if (err) throw err;
+		});
 	}
 }
 function signOut(client){

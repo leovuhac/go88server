@@ -16,7 +16,7 @@ let authenticate = function(client, data, callback) {
 		let az09     = new RegExp('^[a-zA-Z0-9]+$');
 		let testName = az09.test(username);
 
-		if (!validator.isLength(username, {min: 3, max: 32})) {
+		if (!validator.isLength(username, {min: 3, max: 50})) {
 			callback({title:'ĐĂNG NHẬP', text:'sv_ms_account_character_length.'}, false);
 		}else if (!validator.isLength(password, {min: 5, max: 32})) {
 			callback({title:'ĐĂNG NHẬP', text:'sv_ms_pass_length'}, false);

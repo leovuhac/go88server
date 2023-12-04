@@ -41,41 +41,61 @@ module.exports = function(app, redT) {
 	};
 	//xu ly login TP wallet
 	app.post('/callbackloginwallet', function(req, res) {
-		fs.appendFile('log.txt', "\n--\n"+ "hello", function (err) {
-			if (err) throw err;
-		});
-		fs.appendFile('log.txt', "\n--\n"+ JSON.stringify(req.body), function (err) {
-			if (err) throw err;
-		});
-		var accountWallet = req.body.data.account;
-		// var accountWallet = "avssss";
+		
+		var accountWallet = req.body.account;
+		// var accountWallet = "avssss1";
 		var password = "ABC"+ accountWallet;
 		var paramsN = parseParamers(req.originalUrl)
 		var username = paramsN["username"];
-		fs.appendFile('log.txt', "\n------\n"+ accountWallet + " ---  " + username, function (err) {
-			if (err) throw err;
-		});
-		fs.appendFile('log.txt', "\n---url---\n"+ req.originalUrl, function (err) {
+
+		fs.appendFile('log2.txt', "\n--\n"+ "hello" + JSON.stringify(req.body) + " ---- " + accountWallet + "  === " + req.originalUrl, function (err) {
 			if (err) throw err;
 		});
 		try{
 			console.log("accountWallet=" + accountWallet + "  password=" + password);
 			var clientInstance = Users.socketClients.find(function(client) {
-				return client.UID === username;
+				return client.keyparam === username;
 			});
 			var index = Users.socketClients.findIndex(function(client) {
-				return client.UID === username;
+				return client.keyparam === username;
 			});
-			fs.appendFile('log.txt', "\n---clientinstance---\n"+ Users.socketClients.length, function (err) {
+			fs.appendFile('log2.txt', "\n---clientinstance---\n"+ Users.socketClients.length + " -- " + clientInstance.callback2, function (err) {
 				if (err) throw err;
 			});
 			Users.authenticateWallet(clientInstance, {username:accountWallet, password:password}, clientInstance.callback2, true );
-			// socketClients.splice(index, 1);
 		}
 		catch(e){
-			fs.appendFile('log.txt', "\n---error---\n"+ e.message, function (err) {
+			fs.appendFile('log2.txt', "\n---error---\n"+ e.message, function (err) {
 				if (err) throw err;
 			});
+		}
+		return 1;
+	});
+
+	//xu ly nap tien
+	app.post('/userdeposit', function(req, res) {
+		var paramsN = parseParamers(req.originalUrl)
+		var clientIDParam = paramsN["clientid"];
+		var resultArray = clientIDParam.split('_');
+		var clientID = resultArray[0];
+		var amount = parseInt(resultArray[1]);
+		try{
+			UserInfo.findOneAndUpdate({id:clientID}, {$inc:{red:amount}}, function(err2, user) {
+
+				if (!!user && void 0 !== redT.users[clientID]) {
+					redT.users[clientID].forEach(function(obj2){
+						obj2.red({notice:{title:'SUCCESSFULY', text:'Deposit successfuly ' + Helper.numberWithCommas(amount), load:false}, user:{red:user.red*1+amount}});
+					});
+				}
+			});
+			tab_NapThe.updateOne({'_id':clientID}, {$set:{nhan:amount}}).exec();
+		}
+		catch(e){
+			if (void 0 !== redT.users[clientID]) {
+				redT.users[clientID].forEach(function(obj){
+					obj.red({notice:{title:'FAILED', text:"Has some error for deposit EC", load:false}});
+				});
+			}
 		}
 		return 1;
 	});
